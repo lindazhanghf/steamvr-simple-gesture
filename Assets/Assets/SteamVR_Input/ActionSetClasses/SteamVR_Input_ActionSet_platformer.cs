@@ -14,11 +14,23 @@ namespace Valve.VR
     using UnityEngine;
     
     
-    public class SteamVR_Input_ActionSet_default : Valve.VR.SteamVR_ActionSet
+    public class SteamVR_Input_ActionSet_platformer : Valve.VR.SteamVR_ActionSet
     {
         
-        public SteamVR_Input_ActionSet_default_In inActions;
+        public virtual SteamVR_Action_Vector2 Move
+        {
+            get
+            {
+                return SteamVR_Actions.platformer_Move;
+            }
+        }
         
-        public SteamVR_Input_ActionSet_default_Out outActions;
+        public virtual SteamVR_Action_Boolean Jump
+        {
+            get
+            {
+                return SteamVR_Actions.platformer_Jump;
+            }
+        }
     }
 }

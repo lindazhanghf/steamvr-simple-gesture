@@ -14,9 +14,17 @@ namespace Valve.VR
     using UnityEngine;
     
     
-    public class SteamVR_Input_ActionSet_buggy : Valve.VR.SteamVR_ActionSet
+    public partial class SteamVR_Actions
     {
         
-        public SteamVR_Input_ActionSet_buggy_In inActions;
+        public static void PreInitialize()
+        {
+            SteamVR_Actions.StartPreInitActionSets();
+            SteamVR_Input.PreinitializeActionSetDictionaries();
+            SteamVR_Actions.PreInitActions();
+            SteamVR_Actions.InitializeActionArrays();
+            SteamVR_Input.PreinitializeActionDictionaries();
+            SteamVR_Input.PreinitializeFinishActionSets();
+        }
     }
 }
