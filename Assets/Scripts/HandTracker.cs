@@ -30,38 +30,38 @@ public class HandTracker : MonoBehaviour
     public float MaxCircleRadius = 0.25f;
     public float MinCircleRadius = 0.05f;
     public int numFramesAllowed = 25;
-    private Coroutine TraceMatchCoroutine;
-    private Vector3[] frames = new Vector3[30];
-    private int currFrame = 0;
-    public float circleRadius;
-    private float RadiusUpperBound
+    private Coroutine m_TraceMatchCoroutine;
+    private Vector3[] m_frames = new Vector3[30];
+    private int m_currFrame = 0;
+    private float m_circleRadius;
+    private float m_RadiusUpperBound
     {
-        get { return circleRadius + TraceMatch_Threshold; }
+        get { return m_circleRadius + TraceMatch_Threshold; }
     }
-    private float RadiusLowerBound
+    private float m_RadiusLowerBound
     {
-        get { return circleRadius - TraceMatch_Threshold; }
+        get { return m_circleRadius - TraceMatch_Threshold; }
     }
 
     // TraceMatch - Debug
     public Transform CenterSphere;
     public Color DebugColor = Color.red;
     public float temp_Angle;
-    private Material material;
+    private Material m_debugMaterial;
 
     void Start()
     {
-        material = GetComponent<MeshRenderer>().material;
+        m_debugMaterial = GetComponent<MeshRenderer>().material;
     }
 
     void OnEnable()
     {
-        TraceMatchCoroutine = StartCoroutine(TraceMatch());
+        m_TraceMatchCoroutine = StartCoroutine(TraceMatch());
     }
     
     void OnDisable()
     {
-        StopCoroutine(TraceMatchCoroutine);
+        StopCoroutine(m_TraceMatchCoroutine);
     }
 
     private IEnumerator TraceMatch()
@@ -74,50 +74,50 @@ public class HandTracker : MonoBehaviour
         }
         Debug.Log("TraceMatch : start receiving data");
 
-        currFrame = 0;
-        while (currFrame < frames.Length)
+        m_currFrame = 0;
+        while (m_currFrame < m_frames.Length)
         {
-            frames[currFrame] = transform.position;
-            currFrame++;
+            m_frames[m_currFrame] = transform.position;
+            m_currFrame++;
             yield return new WaitForSeconds(0.03f); // 30 fps
         }
-        Debug.Log("TraceMatch : collected first set of frames");
+        Debug.Log("TraceMatch : collected first set of m_frames");
 
-        currFrame = 0;
+        m_currFrame = 0;
         while (true)
         {
-            frames[currFrame] = transform.position;
+            m_frames[m_currFrame] = transform.position;
 
             // TraceMatch
-            Vector3 center = CalculateCenterOfCircle(frames[currFrame], frames[(currFrame + 10)%30], frames[(currFrame + 20)%30]);
+            Vector3 center = CalculateCenterOfCircle(m_frames[m_currFrame], m_frames[(m_currFrame + 10)%30], m_frames[(m_currFrame + 20)%30]);
 
-            Vector3 v_currFrame_center = frames[currFrame] - center;
-            Vector3 v_lastFrame_center = frames[currFrame == 0 ? 29 : currFrame - 1] - center;
-            temp_Angle = Vector3.Angle(v_currFrame_center, v_lastFrame_center);
+            Vector3 v_m_currFrame_center = m_frames[m_currFrame] - center;
+            Vector3 v_lastFrame_center = m_frames[m_currFrame == 0 ? 29 : m_currFrame - 1] - center;
+            temp_Angle = Vector3.Angle(v_m_currFrame_center, v_lastFrame_center);
 
-            if (center != Vector3.zero && Vector3.Angle(v_currFrame_center, v_lastFrame_center) > 5)
+            if (center != Vector3.zero && Vector3.Angle(v_m_currFrame_center, v_lastFrame_center) > 5)
             {
-                foreach (Vector3 frame in frames)
+                foreach (Vector3 frame in m_frames)
                 {
                     if (WithinRadiusThreshold(Vector3.Distance(frame, center))) numFramesWithinThreshold++;
                 }
 
                 if (numFramesWithinThreshold > numFramesAllowed)
                 {
-                    if (numFramesWithinThreshold == 30) Debug.Log(circleRadius);
+                    if (numFramesWithinThreshold == 30) Debug.Log(m_circleRadius);
                     else Debug.Log(Hand.ToString() + " within = " + numFramesWithinThreshold);
-                    material.color = DebugColor;
+                    m_debugMaterial.color = DebugColor;
                 }
                 else
                 {
                     Debug.Log(Hand.ToString() + " < 25");
-                    material.color = Color.white;
+                    m_debugMaterial.color = Color.white;
                 }
             }
 
-            // Increment currFrame
-            currFrame++;
-            if (currFrame == frames.Length) currFrame = 0;
+            // Increment m_currFrame
+            m_currFrame++;
+            if (m_currFrame == m_frames.Length) m_currFrame = 0;
 
             yield return new WaitForSeconds(0.03f); // 30 fps
         }
@@ -150,12 +150,12 @@ public class HandTracker : MonoBehaviour
         float tv = Vector3.Dot(t, v);
 
         // NOTE: radius of the circle is saved in the class variable for other calculation
-        circleRadius = Mathf.Sqrt(tt * uu * (vv) * iwsl2 * 0.5f);
-        if (circleRadius < MinCircleRadius || circleRadius > MaxCircleRadius)
+        m_circleRadius = Mathf.Sqrt(tt * uu * (vv) * iwsl2 * 0.5f);
+        if (m_circleRadius < MinCircleRadius || m_circleRadius > MaxCircleRadius)
         {
-            // Debug.Log("TraceMatch :: circleRadius too small");
+            // Debug.Log("TraceMatch :: m_circleRadius too small");
             if (CenterSphere) CenterSphere.localPosition = Vector3.zero;
-            material.color = Color.white;
+            m_debugMaterial.color = Color.white;
             return Vector3.zero;
         }
 
@@ -167,6 +167,6 @@ public class HandTracker : MonoBehaviour
 
     private bool WithinRadiusThreshold(float distance)
     {
-        return distance < RadiusUpperBound && distance > RadiusLowerBound;
+        return distance < m_RadiusUpperBound && distance > m_RadiusLowerBound;
     }
 }
