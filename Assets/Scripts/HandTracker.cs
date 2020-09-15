@@ -18,6 +18,7 @@ public class HandTracker : MonoBehaviour
     public HandType Hand;
     private SteamVR_Action_Skeleton m_skeletonAction;
 
+
     [Header("Hand Tracking")]
     [Range(0f, 0.5f)]
     public float PalmOpenThreshold = 1f;
@@ -27,6 +28,7 @@ public class HandTracker : MonoBehaviour
     }
     private float m_sumFingerCurls;
 
+
     [Header("Tracking Data")]
     public bool SameSideOfBody;
     public bool OnShoulder;
@@ -35,7 +37,6 @@ public class HandTracker : MonoBehaviour
     {
         get { return transform.position.y > Camera.position.y; }
     }
-
 
 
     [Header("Trace Match")]
@@ -56,11 +57,14 @@ public class HandTracker : MonoBehaviour
         get { return m_circleRadius - TraceMatch_Threshold; }
     }
 
+
     [Header("Trace Match - Debug")]
     public Transform CenterSphere;
     public Color DebugColor = Color.red;
     public float temp_Angle;
     private Material m_debugMaterial;
+    private bool m_debugReset;
+
 
     void Awake()
     {
@@ -112,6 +116,10 @@ public class HandTracker : MonoBehaviour
             {
                 TraceMatch();
             }
+            else
+            {
+                ResetDebug();
+            }
 
             // Increment m_currFrame
             m_currFrame++;
@@ -146,7 +154,7 @@ public class HandTracker : MonoBehaviour
             else
             {
                 Debug.Log(Hand.ToString() + " < 25");
-                m_debugMaterial.color = Color.white;
+                ResetDebug();
             }
         }
     }
@@ -182,15 +190,28 @@ public class HandTracker : MonoBehaviour
         if (m_circleRadius < MinCircleRadius || m_circleRadius > MaxCircleRadius)
         {
             // Debug.Log("TraceMatch :: m_circleRadius too small");
-            if (CenterSphere) CenterSphere.localPosition = Vector3.zero;
-            m_debugMaterial.color = Color.white;
+            ResetDebug();
             return Vector3.zero;
         }
 
         // result circle
         Vector3 circCenter = p1 + (u*tt*(uv) - t*uu*(tv)) * iwsl2;
         if (CenterSphere) CenterSphere.position = circCenter;
+        m_debugReset = false;
         return circCenter;
+    }
+
+    private void ResetDebug()
+    {
+        if (m_debugReset) return;
+
+        m_debugMaterial.color = Color.white;
+        if (CenterSphere)
+        {
+            CenterSphere.localPosition = Vector3.zero;
+        }
+
+        m_debugReset = true;
     }
 
     /// Helper Functions ///
