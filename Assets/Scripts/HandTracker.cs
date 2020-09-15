@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
+using Valve.VR;
 
 public class HandTracker : MonoBehaviour
 {
@@ -15,6 +16,16 @@ public class HandTracker : MonoBehaviour
     [Header("SteamVR References")]
     public Transform Camera;
     public HandType Hand;
+    private SteamVR_Action_Skeleton m_skeletonAction;
+
+    [Header("Hand Tracking")]
+    [Range(0f, 0.5f)]
+    public float PalmOpenThreshold = 1f;
+    public bool PalmOpen
+    {
+        get { return SumFingerCurls() < PalmOpenThreshold; }
+    }
+    private float m_sumFingerCurls;
 
     [Header("Tracking Data")]
     public bool SameSideOfBody;
@@ -51,9 +62,12 @@ public class HandTracker : MonoBehaviour
     public float temp_Angle;
     private Material m_debugMaterial;
 
-    void Start()
+    void Awake()
     {
         m_debugMaterial = GetComponent<MeshRenderer>().material;
+
+        // TODO: get using SteamVR_Input_Sources
+        m_skeletonAction = GetComponentInParent<SteamVR_Behaviour_Skeleton>().skeletonAction;
     }
 
     void OnEnable()
@@ -94,7 +108,10 @@ public class HandTracker : MonoBehaviour
         {
             m_frames[m_currFrame] = transform.position;
 
-            TraceMatch();
+            if (PalmOpen)
+            {
+                TraceMatch();
+            }
 
             // Increment m_currFrame
             m_currFrame++;
@@ -177,6 +194,17 @@ public class HandTracker : MonoBehaviour
     }
 
     /// Helper Functions ///
+    private float SumFingerCurls()
+    {
+        m_sumFingerCurls = 0;
+        foreach (var fingerCurlVal in m_skeletonAction.fingerCurls)
+        {
+            m_sumFingerCurls += fingerCurlVal;
+        }
+
+        return m_sumFingerCurls;
+    }
+
     private bool WithinRadiusThreshold(float distance)
     {
         return distance < m_RadiusUpperBound && distance > m_RadiusLowerBound;
