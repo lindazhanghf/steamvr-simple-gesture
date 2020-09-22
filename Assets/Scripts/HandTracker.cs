@@ -20,19 +20,31 @@ public class HandTracker : MonoBehaviour
 
 
     [Header("Hand Tracking")]
+    public FingerGestureSetting FingerSetting;
     [Range(0f, 0.5f)]
-    public float PalmOpenThreshold = 1f;
+    public float PalmOpenThreshold = 1f; // sum of 5 fingers curl value
     public bool PalmOpen
     {
         get { return SumFingerCurls() < PalmOpenThreshold; }
     }
+    [ShowNativeProperty]
+    public bool IndexFingerPoint
+    {
+        get 
+        {
+            return (FingerSetting.IsStraight(m_skeletonAction.indexCurl, SteamVR_Skeleton_FingerIndexEnum.index)
+            && FingerSetting.IsCurl(m_skeletonAction.thumbCurl, SteamVR_Skeleton_FingerIndexEnum.thumb)
+            && FingerSetting.IsCurl(m_skeletonAction.middleCurl, SteamVR_Skeleton_FingerIndexEnum.middle)
+            && FingerSetting.IsCurl(m_skeletonAction.ringCurl, SteamVR_Skeleton_FingerIndexEnum.ring)
+            && FingerSetting.IsCurl(m_skeletonAction.pinkyCurl, SteamVR_Skeleton_FingerIndexEnum.pinky));
+        }
+    }
     private float m_sumFingerCurls;
 
 
-    [Header("Tracking Data")]
+    [Header("Body Tracking")]
     public bool SameSideOfBody;
     public bool OnShoulder;
-    [ShowNativeProperty]
     public bool AboveHead
     {
         get { return transform.position.y > Camera.position.y; }
@@ -59,6 +71,8 @@ public class HandTracker : MonoBehaviour
 
 
     [Header("Trace Match - Debug")]
+    public Transform IndexFinger;
+    public Transform PinkyFinger;
     public Transform CenterSphere;
     public Color DebugColor = Color.red;
     public float temp_Angle;
@@ -116,10 +130,21 @@ public class HandTracker : MonoBehaviour
             {
                 TraceMatch();
             }
+            else if (IndexFingerPoint && IndexFinger)
+            {
+                Debug.DrawRay(IndexFinger.position, PinkyFinger.position - IndexFinger.position, Color.green);
+                Debug.LogWarning("POINTING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            }
             else
             {
                 ResetDebug();
             }
+            Debug.Log(
+                m_skeletonAction.indexCurl + "\n" +
+                m_skeletonAction.thumbCurl + "\n" +
+                m_skeletonAction.middleCurl + "\n" +
+                m_skeletonAction.ringCurl + "\n" +
+                m_skeletonAction.pinkyCurl + "\n");
 
             // Increment m_currFrame
             m_currFrame++;
