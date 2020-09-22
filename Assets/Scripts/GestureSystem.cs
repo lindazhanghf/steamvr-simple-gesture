@@ -45,13 +45,13 @@ public class GestureSystem : MonoBehaviour
 
     public HandTracker[] Hands; // Make sure left hand at index 0, right hand at index 1!
 
-     private HandTracker[] _handLeft;
-    private HandTracker[] _handRight;
+    private HandTracker[] m_handLeft;
+    private HandTracker[] m_handRight;
 
     void Start()
     {
-        _handLeft = new HandTracker[] { Hands[(int)HandSetting.Left] };
-        _handRight = new HandTracker[] { Hands[(int)HandSetting.Right] };
+        m_handLeft = new HandTracker[] { Hands[(int)HandSetting.Left] };
+        m_handRight = new HandTracker[] { Hands[(int)HandSetting.Right] };
     }
 
     void Update()
@@ -96,9 +96,9 @@ public class GestureSystem : MonoBehaviour
         switch (setting)
         {
             case HandSetting.Right:
-                return _handRight;
+                return m_handRight;
             case HandSetting.Left:
-                return _handLeft;
+                return m_handLeft;
             default:
                 return Hands;
         }

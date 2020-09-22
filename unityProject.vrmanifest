@@ -5,6 +5,7 @@
       "app_key": "application.generated.unity.gesturetest.exe",
       "launch_type": "url",
       "url": "steam://launch/",
+      "action_manifest_path": "D:\\Z_UnityProjects\\steamvr-simple-gesture\\Assets\\StreamingAssets\\SteamVR\\actions.json",
       "strings": {
         "en_us": {
           "name": "gesture-test [Testing]"
