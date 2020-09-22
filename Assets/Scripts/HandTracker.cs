@@ -13,6 +13,8 @@ public class HandTracker : MonoBehaviour
         Any = 0,
     }
 
+    public bool IsTracking { get; private set; }
+
     [Header("SteamVR References")]
     public Transform Camera;
     public HandType Hand;
@@ -27,7 +29,6 @@ public class HandTracker : MonoBehaviour
     {
         get { return SumFingerCurls() < PalmOpenThreshold; }
     }
-    [ShowNativeProperty]
     public bool IndexFingerPoint
     {
         get 
@@ -71,8 +72,7 @@ public class HandTracker : MonoBehaviour
 
 
     [Header("Trace Match - Debug")]
-    public Transform IndexFinger;
-    public Transform PinkyFinger;
+    public Transform IndexFingerTip;
     public Transform CenterSphere;
     public Color DebugColor = Color.red;
     public float temp_Angle;
@@ -106,6 +106,7 @@ public class HandTracker : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
         Debug.Log("TraceMatch : start receiving data");
+        IsTracking = true;
 
         m_currFrame = 0;
         while (m_currFrame < m_frames.Length)
@@ -130,21 +131,15 @@ public class HandTracker : MonoBehaviour
             {
                 TraceMatch();
             }
-            else if (IndexFingerPoint && IndexFinger)
-            {
-                Debug.DrawRay(IndexFinger.position, PinkyFinger.position - IndexFinger.position, Color.green);
-                Debug.LogWarning("POINTING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            }
+            // else if (IndexFingerPoint && IndexFinger)
+            // {
+            //     Debug.DrawRay(IndexFinger.position, PinkyFinger.position - IndexFinger.position, Color.green);
+            //     Debug.LogWarning("POINTING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            // }
             else
             {
                 ResetDebug();
             }
-            Debug.Log(
-                m_skeletonAction.indexCurl + "\n" +
-                m_skeletonAction.thumbCurl + "\n" +
-                m_skeletonAction.middleCurl + "\n" +
-                m_skeletonAction.ringCurl + "\n" +
-                m_skeletonAction.pinkyCurl + "\n");
 
             // Increment m_currFrame
             m_currFrame++;
