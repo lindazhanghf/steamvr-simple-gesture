@@ -66,6 +66,8 @@ public class HandTracker : MonoBehaviour
     public float MaxCircleRadius = 0.25f;
     public float MinCircleRadius = 0.05f;
     public int NumFramesAllowed = 25;
+    public float AngleContinousCurve { get; private set; }
+
     private Coroutine m_TraceMatchCoroutine;
     private Vector3[] m_frames = new Vector3[30];
     private int m_currFrame = 0;
@@ -78,13 +80,18 @@ public class HandTracker : MonoBehaviour
     {
         get { return m_circleRadius - RadiusThreshold; }
     }
+    // Continous Curve
+    public float ContinousCurveAngle { get; private set; }
+    private Vector3 m_curveLastFrame = Vector3.zero;
+    private Vector3 m_curveStartCenter = Vector3.zero;
+    private int m_curveStartFrameIndex;
 
 
     [Header("Trace Match - Debug")]
     public Transform IndexFingerTip;
     public Transform CenterSphere;
     public Color DebugColor = Color.red;
-    private float currentCurveAngle;
+    private float m_currentCurveAngle;
     private Material m_debugMaterial;
     private bool m_debugReset;
 
@@ -153,16 +160,16 @@ public class HandTracker : MonoBehaviour
     {
         Vector3 center = CalculateCenterOfCircle(m_frames[m_currFrame], m_frames[(m_currFrame + 10)%30], m_frames[(m_currFrame + 20)%30]);
 
-        Vector3 currFrame_center = m_frames[m_currFrame] - center;
-        Vector3 lastFrame_center = m_frames[m_currFrame == 0 ? 29 : m_currFrame - 1] - center;
-        currentCurveAngle = Vector3.Angle(currFrame_center, lastFrame_center);
+        Vector3 v_currFrame_center = m_frames[m_currFrame] - center;
+        Vector3 v_lastFrame_center = m_frames[m_currFrame == 0 ? 29 : m_currFrame - 1] - center; // Earliest frame in this set
+        m_currentCurveAngle = Vector3.Angle(v_currFrame_center, v_lastFrame_center);
 
         int numFramesWithinThreshold = 0;
-        if (center != Vector3.zero && Vector3.Angle(currFrame_center, lastFrame_center) > 5)
+        if (center != Vector3.zero && Vector3.Angle(v_currFrame_center, v_lastFrame_center) > 5)
         {
             foreach (Vector3 frame in m_frames)
             {
-                if (WithinRadiusThreshold(Vector3.Distance(frame, center))) numFramesWithinThreshold++;
+                if (RadiusWithinThreshold(Vector3.Distance(frame, center))) numFramesWithinThreshold++;
             }
 
             if (numFramesWithinThreshold > NumFramesAllowed)
@@ -170,10 +177,13 @@ public class HandTracker : MonoBehaviour
                 if (numFramesWithinThreshold == 30) Debug.Log(m_circleRadius);
                 else Debug.Log(Hand.ToString() + " within = " + numFramesWithinThreshold);
                 m_debugMaterial.color = DebugColor;
+
+                CalculateContinousCurve(center, v_currFrame_center);
             }
             else
             {
                 Debug.Log(Hand.ToString() + " < 25");
+                ResetContinousCurve();
                 ResetDebug();
             }
         }
@@ -221,6 +231,39 @@ public class HandTracker : MonoBehaviour
         return circCenter;
     }
 
+    private void CalculateContinousCurve(Vector3 centerPos, Vector3 currFrameVector)
+    {
+        if (m_currFrame % 5 != 0) return; // Check ContinousCurve every 5 frames
+        Debug.Log(m_currFrame);
+
+        if (m_curveStartFrameIndex < 0) // Start new curve
+        {
+            ContinousCurveAngle = m_currentCurveAngle;
+
+            m_curveStartCenter = centerPos;
+            m_curveStartFrameIndex = m_currFrame;
+            m_curveLastFrame = m_frames[m_currFrame];
+            return;
+        }
+
+        // Curve is not continous anymore (center of curve has shifted)
+        if (!DistanceWithinThreshold(m_curveStartCenter, centerPos))
+        {
+            ResetContinousCurve();
+            return;
+        }
+
+        Vector3 lastFrameVector = m_curveLastFrame - centerPos;
+        ContinousCurveAngle += Vector3.Angle(lastFrameVector, currFrameVector);
+    }
+    
+    private void ResetContinousCurve()
+    {
+        Debug.Log("HandTracker :: ResetContinousCurve, last ContinousCurveAngle = " + ContinousCurveAngle);
+        m_curveStartFrameIndex = -1;
+        ContinousCurveAngle = 0f;
+    }
+
     private void ResetDebug()
     {
         if (m_debugReset) return;
@@ -247,8 +290,13 @@ public class HandTracker : MonoBehaviour
         return m_sumFingerCurls;
     }
 
-    private bool WithinRadiusThreshold(float distance)
+    private bool RadiusWithinThreshold(float radius)
     {
-        return distance < m_RadiusUpperBound && distance > m_RadiusLowerBound;
+        return radius < m_RadiusUpperBound && radius > m_RadiusLowerBound;
+    }
+
+    private bool DistanceWithinThreshold(Vector3 v1, Vector3 v2)
+    {
+        return Vector3.Distance(v1, v2) < RadiusThreshold;
     }
 }
