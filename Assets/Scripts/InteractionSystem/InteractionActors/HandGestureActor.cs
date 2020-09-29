@@ -6,8 +6,9 @@ using UnityEngine.XR;
 public class HandGestureActor : InteractionActor {
     [Header("HandGestureActor")]
     public HandTracker TrackingHand;
+    public int FullCircleAngle = 360; // in degree
     [Range(0, 5f)]
-    public float GestureTransitionBuffer_s = 0.5f;
+    public float GestureTransitionBuffer_s = 0.25f;
     public Transform finger_index_end;
 
     [Header("Debug")]
@@ -31,21 +32,38 @@ public class HandGestureActor : InteractionActor {
         {
             if (TrackingHand.PalmOpen)
             {
-                // Check if full circle
-                Debug.Log("HandGestureActor :: START Activation - Drawing circles");
+                // Debug.Log("HandGestureActor :: START Activation - Drawing circles");
+
+                if (TrackingHand.ContinousCurveAngle > FullCircleAngle)
+                {
+                    Invoke_Activation();
+                    m_startActivation = false;
+                    Debug.LogWarning("HandGestureActor :: DONE Activation !!!!!!!!!!!!! " + TrackingHand.ContinousCurveAngle);
+                }
             }
             else
             {
                 TrackingHand.EnableTraceMatch = false;
                 m_startActivation = false;
-                Debug.Log("HandGestureActor :: STOP Activation");
+                Debug.LogWarning("HandGestureActor :: STOP Activation");
             }
+
+            return;
+        }
+
+        if (m_currentPointing && m_currentPointing.IsActivated)
+        {
+            Debug.Log("HandGestureActor :: detect throwing...");
+            return;
         }
 
         if (m_currentPointing && m_currentPointing.IsHovering && TrackingHand.PalmOpen)
         {
             m_startActivation = true;
             TrackingHand.EnableTraceMatch = true;
+
+            if (m_clearCurrentPointingCoroutine != null) StopCoroutine(m_clearCurrentPointingCoroutine);
+            m_clearCurrentPointingCoroutine = null;
             return;
         }
         
@@ -107,7 +125,7 @@ public class HandGestureActor : InteractionActor {
     {
         if (m_currentPointing)
         {
-            if (m_debuging) Debug.Log("HandGestureActor :: ClearCurrentPointing & Invoke_StopHovering");
+            if (m_debuging) Debug.LogWarning("HandGestureActor :: ClearCurrentPointing & Invoke_StopHovering");
             Invoke_StopHovering(m_currentPointing);
             m_currentPointing = null;
         }
