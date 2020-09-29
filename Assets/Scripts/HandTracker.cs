@@ -223,6 +223,7 @@ public class HandTracker : MonoBehaviour
 
     private void ResetDebug()
     {
+        Debug.Log("HandTracker :: ResetDebug");
         if (m_debugReset) return;
 
         m_debugMaterial.color = Color.white;

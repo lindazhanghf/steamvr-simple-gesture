@@ -48,7 +48,7 @@ public abstract class InteractionActor : MonoBehaviour
 
     protected virtual void Invoke_StartHovering(InteractableObject interactableObject)
     {
-        // Prevent Invoke_StartHovering() being called again without properly OnTriggerExit()
+        // Prevent Invoke_StartHovering() being called again without properly Invoke_StopHovering()
         if (m_currentObject != null && m_currentObject == interactableObject)
         {
             return;
@@ -59,7 +59,7 @@ public abstract class InteractionActor : MonoBehaviour
             // The first object that the user touches becomes m_currentObject
             if (m_currentObject == null)
             {
-                if (m_debuging) Debug.LogWarning("InteractionActor :: new m_currentObject: " + interactableObject.name);
+                if (m_debuging) Debug.Log("InteractionActor :: new m_currentObject: " + interactableObject.name);
             }
             else
             {

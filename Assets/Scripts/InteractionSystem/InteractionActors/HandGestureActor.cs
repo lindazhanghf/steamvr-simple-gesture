@@ -4,9 +4,22 @@ using UnityEngine;
 using UnityEngine.XR;
 
 public class HandGestureActor : InteractionActor {
+    [Header("HandGestureActor")]
     public HandTracker TrackingHand;
+    [Range(0, 5f)]
+    public float GestureTransitionBuffer_s = 0.5f;
 
     private InteractableObject m_currentPointing;
+    private bool m_startActivation;
+
+    private Coroutine m_clearCurrentPointingCoroutine;
+    // protected Coroutine clearCurrentPointingCoroutine
+    // {
+    //     set {
+    //         if (value == null) StopCoroutine(m_clearCurrentPointingCoroutine);
+    //         m_clearCurrentPointingCoroutine = value;
+    //     }
+    // }
 
     void Update()
     {
@@ -20,34 +33,62 @@ public class HandGestureActor : InteractionActor {
             if (hitObj)
             {
                 InteractableObject interactableObj = hitObj.GetComponent<InteractableObject>();
-                if (m_debuging) Debug.Log("HIIIIIIITING " + hitObj.name + " " + interactableObj != null);
+                // if (m_debuging) Debug.Log("HandGestureActor :: HIIIIIIITING " + hitObj.name + " " + interactableObj != null);
                 if (interactableObj == null) // The object hit is not an interactable object
                 {
-                    ClearCurrentHovering();
+                    Delay_ClearCurrentPointing();
                     return;
                 }
-                else
+
+                if (m_currentPointing)
                 {
-                    Invoke_StartHovering(interactableObj);
-                    m_currentPointing = interactableObj;
+                    if (m_currentPointing == interactableObj) return; // Pointing at the same object
+
+                    Invoke_StopHovering(m_currentPointing);
+                    if (m_clearCurrentPointingCoroutine != null) StopCoroutine(m_clearCurrentPointingCoroutine);
+                    m_clearCurrentPointingCoroutine = null;
                 }
+
+                Invoke_StartHovering(interactableObj);
+                m_currentPointing = interactableObj;
+            }
+            else
+            {
+                Delay_ClearCurrentPointing();
             }
         }
         else
         {
             TrackingHand.IndexFingerTip.gameObject.SetActive(false);
-            ClearCurrentHovering();
+            Delay_ClearCurrentPointing();
         }
     }
 
-    private void ClearCurrentHovering()
+    /* ClearCurrentPointing - START */
+    private void Delay_ClearCurrentPointing()
+    {
+        if (m_currentPointing == null) return;
+        if (m_clearCurrentPointingCoroutine != null) return; // already running
+
+        if (m_debuging) Debug.Log("HandGestureActor :: Delay_ClearCurrentPointing -- delaying for " + GestureTransitionBuffer_s);
+        m_clearCurrentPointingCoroutine = StartCoroutine(ClearCurrentPointingCoroutine());
+    }
+    private IEnumerator ClearCurrentPointingCoroutine()
+    {
+        yield return new WaitForSeconds(GestureTransitionBuffer_s);
+        ClearCurrentPointing();
+        m_clearCurrentPointingCoroutine = null;
+    }
+    private void ClearCurrentPointing()
     {
         if (m_currentPointing)
         {
+            if (m_debuging) Debug.Log("HandGestureActor :: ClearCurrentPointing & Invoke_StopHovering");
             Invoke_StopHovering(m_currentPointing);
             m_currentPointing = null;
         }
     }
+    /* ClearCurrentPointing - END */
 
     private Collider FindHitObject()
     {
