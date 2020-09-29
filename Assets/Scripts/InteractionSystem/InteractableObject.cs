@@ -7,8 +7,11 @@ using UnityEditor;
 
 [RequireComponent(typeof(Collider))]
 public class InteractableObject : MonoBehaviour {
-    public bool IsHovering = false;
     public bool IsUsable = true;
+    // Public getter variables
+    public bool IsHovering { get; private set; }
+    public bool IsActivated { get; private set; }
+    public int ActivationDegree { get; private set; }
 
     /// InteractableEvents: used for InteractableBehavior to listen for these events
     public delegate void InteractableEvent();
@@ -37,6 +40,12 @@ public class InteractableObject : MonoBehaviour {
 
     public virtual void EndInteraction() {}
 
+    public virtual void Activation()
+    {
+        IsActivated = true;
+        InvokeInteractableEvents(OnActivationEvents);
+    }
+
     public virtual void StartHovering(InteractionActor newActor = null)
     {
         m_currentActor = newActor;
@@ -49,6 +58,7 @@ public class InteractableObject : MonoBehaviour {
     {
         m_currentActor = null;
         IsHovering = false;
+        IsActivated = false;
 
         InvokeInteractableEvents(OnStopHoveringEvents);
     }

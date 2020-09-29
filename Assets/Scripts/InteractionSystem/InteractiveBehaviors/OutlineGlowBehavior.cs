@@ -8,7 +8,7 @@ public class OutlineGlowBehavior : InteractableBehavior
 
     [Header("Outline")]
     public bool enableOutline = true;
-    [SerializeField] private Color m_touchColor = Color.green;
+    [SerializeField] private Color m_outlineColor = Color.green;
 
     [Header("Glowing Effect")]
     [Tooltip("Make the outline to glow slowly to indicate interactivity")]
@@ -63,6 +63,17 @@ public class OutlineGlowBehavior : InteractableBehavior
         if (m_enableGlow) SetOutlineColor(m_glowColor);
     }
 
+    protected override void OnActivation()
+    {
+        base.OnActivation();
+        Debug.Log("OnActivation" + gameObject.name);
+
+        
+        if (enableOutline) SetOutlineColor(m_outlineColor);
+        SetOutlineThickness(0.005f);
+        // Degree of actvation determines thickness?
+    }
+
     protected override void OnStartHovering()
     {
         base.OnStartHovering();
@@ -70,8 +81,8 @@ public class OutlineGlowBehavior : InteractableBehavior
 
         // Debug.Log("OnStartHovering" + gameObject.name);
 
-        // SetOutlineColor(m_touchColor, 0.0025f);
-        ChangeOutlineCoroutine(0.5f, m_touchColor, 0.0025f, s_DefaultColor);
+        // SetOutlineColor(m_outlineColor, 0.0025f);
+        ChangeOutlineCoroutine(0.5f, m_glowColor, 0.0025f, s_DefaultColor);
     }
 
     protected override void OnStopHovering()
@@ -80,7 +91,7 @@ public class OutlineGlowBehavior : InteractableBehavior
 
         // Debug.Log("OnStopHovering" + gameObject.name);
         // DisableOutline();
-        ChangeOutlineCoroutine(0.5f, m_touchColor, 0f, s_DefaultColor);
+        ChangeOutlineCoroutine(0.5f, m_glowColor, 0f, s_DefaultColor);
     }
 
     private void EnableOutline()

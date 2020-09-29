@@ -46,6 +46,17 @@ public abstract class InteractionActor : MonoBehaviour
         catch (Exception e) { Debug.LogError("InteractionActor [" + gameObject.name + "] :: " + e); }
     }
 
+    protected virtual void Invoke_Activation()
+    {
+        if (m_currentObject == null) return;
+
+        try
+        {
+            m_currentObject.Activation();
+        }
+        catch (Exception e) { Debug.LogError("InteractionActor [" + gameObject.name + "] :: " + e); }
+    }
+
     protected virtual void Invoke_StartHovering(InteractableObject interactableObject)
     {
         // Prevent Invoke_StartHovering() being called again without properly Invoke_StopHovering()
@@ -76,6 +87,7 @@ public abstract class InteractionActor : MonoBehaviour
     {
         if (m_currentObject == interactableObject)
         {
+            if (m_debuging) Debug.Log("InteractionActor :: Invoke_StopHovering: " + interactableObject.name);
             m_currentObject = null;
         }
 
