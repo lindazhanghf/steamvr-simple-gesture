@@ -11,15 +11,7 @@ public class HandGestureActor : InteractionActor {
 
     private InteractableObject m_currentPointing;
     private bool m_startActivation;
-
     private Coroutine m_clearCurrentPointingCoroutine;
-    // protected Coroutine clearCurrentPointingCoroutine
-    // {
-    //     set {
-    //         if (value == null) StopCoroutine(m_clearCurrentPointingCoroutine);
-    //         m_clearCurrentPointingCoroutine = value;
-    //     }
-    // }
 
     void Update()
     {
