@@ -8,10 +8,20 @@ public class HandGestureActor : InteractionActor {
     public HandTracker TrackingHand;
     [Range(0, 5f)]
     public float GestureTransitionBuffer_s = 0.5f;
+    public Transform finger_index_end;
+
+    [Header("Debug")]
+    public GameObject DebugHit;
 
     private InteractableObject m_currentPointing;
+    private Transform finger_index_2;
     private bool m_startActivation;
     private Coroutine m_clearCurrentPointingCoroutine;
+
+    void Start()
+    {
+        finger_index_2 = finger_index_end.parent;
+    }
 
     void Update()
     {
@@ -109,8 +119,9 @@ public class HandGestureActor : InteractionActor {
         RaycastHit raycastHit;
         // Debug.DrawRay(TrackingHand.IndexFingerTip.position, Vector3.forward * 10, Color.red, 10);
 
-        if (Physics.Raycast(TrackingHand.IndexFingerTip.position, Vector3.forward, out raycastHit, 400))
+        if (Physics.Raycast(finger_index_2.position, finger_index_end.position - finger_index_2.position, out raycastHit, 400))
         {
+            if (DebugHit) DebugHit.transform.position = raycastHit.point;
             return raycastHit.collider;
         }
         return null;

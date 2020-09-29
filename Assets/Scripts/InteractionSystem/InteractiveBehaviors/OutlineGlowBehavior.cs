@@ -68,7 +68,7 @@ public class OutlineGlowBehavior : InteractableBehavior
         base.OnStartHovering();
         if (!enableOutline) return;
 
-        Debug.Log("OnStartHovering" + gameObject.name);
+        // Debug.Log("OnStartHovering" + gameObject.name);
 
         // SetOutlineColor(m_touchColor, 0.0025f);
         ChangeOutlineCoroutine(0.5f, m_touchColor, 0.0025f, s_DefaultColor);
@@ -78,7 +78,7 @@ public class OutlineGlowBehavior : InteractableBehavior
     {
         base.OnStopHovering();
 
-        Debug.Log("OnStopHovering" + gameObject.name);
+        // Debug.Log("OnStopHovering" + gameObject.name);
         // DisableOutline();
         ChangeOutlineCoroutine(0.5f, m_touchColor, 0f, s_DefaultColor);
     }
@@ -159,7 +159,7 @@ public class OutlineGlowBehavior : InteractableBehavior
 
     private void StopChangeOutlineCoroutine()
     {
-        Debug.Log("StopChangeOutlineCoroutine " + gameObject.name);
+        // Debug.Log("StopChangeOutlineCoroutine " + gameObject.name);
         if (m_ChangeOutlineCoroutine != null)
         {
             StopCoroutine(m_ChangeOutlineCoroutine);
