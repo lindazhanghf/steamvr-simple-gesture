@@ -9,7 +9,7 @@ public abstract class InteractionActor : MonoBehaviour
     protected bool m_debuging = false;
 
  #if UNITY_EDITOR || DEVELOPMENT_BUILD 
-    public bool EnableDebuging = false;
+    [SerializeField] private bool EnableDebuging = false;
     protected virtual void Awake()
     {
         m_debuging = EnableDebuging;
@@ -48,20 +48,25 @@ public abstract class InteractionActor : MonoBehaviour
 
     protected virtual void Invoke_StartHovering(InteractableObject interactableObject)
     {
-        // The first object that the user touches becomes m_currentObject
-        if (m_currentObject == null)
-        {
-            m_currentObject = interactableObject;
-            if (m_debuging) Debug.LogWarning("InteractionActor :: new m_currentObject: " + m_currentObject.name);
-        }
-        // Sometimes OnTriggerEnter() might be called twice without properly OnTriggerExit()
-        else if (m_currentObject == interactableObject)
+        // Prevent Invoke_StartHovering() being called again without properly OnTriggerExit()
+        if (m_currentObject != null && m_currentObject == interactableObject)
         {
             return;
         }
 
         try
         {
+            // The first object that the user touches becomes m_currentObject
+            if (m_currentObject == null)
+            {
+                if (m_debuging) Debug.LogWarning("InteractionActor :: new m_currentObject: " + interactableObject.name);
+            }
+            else
+            {
+                m_currentObject.StopHovering();
+            }
+
+            m_currentObject = interactableObject;
             interactableObject.StartHovering(this);
         }
         catch (Exception e) { Debug.LogError("InteractionActor [" + gameObject.name + "] :: " + e); }
