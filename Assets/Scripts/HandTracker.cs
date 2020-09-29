@@ -53,6 +53,15 @@ public class HandTracker : MonoBehaviour
 
 
     [Header("Trace Match")]
+    private bool m_enableTraceMatch;
+    public bool EnableTraceMatch
+    {
+        set
+        {
+            m_enableTraceMatch = value;
+            if (!value) ResetDebug();
+        }
+    }
     public float TraceMatch_Threshold = 0.01f;
     public float MaxCircleRadius = 0.25f;
     public float MinCircleRadius = 0.05f;
@@ -127,18 +136,9 @@ public class HandTracker : MonoBehaviour
         {
             m_frames[m_currFrame] = transform.position;
 
-            if (PalmOpen)
+            if (m_enableTraceMatch)
             {
                 TraceMatch();
-            }
-            // else if (IndexFingerPoint && IndexFinger)
-            // {
-            //     Debug.DrawRay(IndexFinger.position, PinkyFinger.position - IndexFinger.position, Color.green);
-            //     Debug.LogWarning("POINTING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            // }
-            else
-            {
-                ResetDebug();
             }
 
             // Increment m_currFrame

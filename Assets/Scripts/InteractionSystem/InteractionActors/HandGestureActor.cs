@@ -25,6 +25,28 @@ public class HandGestureActor : InteractionActor {
     {
         if (TrackingHand == null || !TrackingHand.IsTracking) return;
 
+        if (m_startActivation)
+        {
+            if (TrackingHand.PalmOpen)
+            {
+                // Check if full circle
+                Debug.Log("HandGestureActor :: START Activation - Drawing circles");
+            }
+            else
+            {
+                TrackingHand.EnableTraceMatch = false;
+                m_startActivation = false;
+                Debug.Log("HandGestureActor :: STOP Activation");
+            }
+        }
+
+        if (m_currentPointing && m_currentPointing.IsHovering && TrackingHand.PalmOpen)
+        {
+            m_startActivation = true;
+            TrackingHand.EnableTraceMatch = true;
+            return;
+        }
+        
         if (TrackingHand.IndexFingerPoint)
         {
             TrackingHand.IndexFingerTip.gameObject.SetActive(true);
