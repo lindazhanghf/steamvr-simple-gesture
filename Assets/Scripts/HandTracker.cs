@@ -40,6 +40,17 @@ public class HandTracker : MonoBehaviour
             && FingerSetting.IsCurl(m_skeletonAction.pinkyCurl, SteamVR_Skeleton_FingerIndexEnum.pinky));
         }
     }
+    public bool Fist
+    {
+        get 
+        {
+            return (FingerSetting.IsCurl(m_skeletonAction.indexCurl, SteamVR_Skeleton_FingerIndexEnum.index)
+            && FingerSetting.IsCurl(m_skeletonAction.thumbCurl, SteamVR_Skeleton_FingerIndexEnum.thumb)
+            && FingerSetting.IsCurl(m_skeletonAction.middleCurl, SteamVR_Skeleton_FingerIndexEnum.middle)
+            && FingerSetting.IsCurl(m_skeletonAction.ringCurl, SteamVR_Skeleton_FingerIndexEnum.ring)
+            && FingerSetting.IsCurl(m_skeletonAction.pinkyCurl, SteamVR_Skeleton_FingerIndexEnum.pinky));
+        }
+    }
     private float m_sumFingerCurls;
 
 
@@ -279,6 +290,11 @@ public class HandTracker : MonoBehaviour
     }
 
     /// Helper Functions ///
+    public Vector3 GetLastCircleDirection()
+    {
+        return m_curveLastFrame = m_curveStartCenter;
+    }
+
     private float SumFingerCurls()
     {
         m_sumFingerCurls = 0;
