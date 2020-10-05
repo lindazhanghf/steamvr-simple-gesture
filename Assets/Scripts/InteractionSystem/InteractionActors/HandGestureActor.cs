@@ -7,6 +7,7 @@ public class HandGestureActor : InteractionActor {
     [Header("HandGestureActor")]
     public HandTracker TrackingHand;
     public int FullCircleAngle = 360; // in degree
+    public int ThrowCurveAngle = 90; // in degree
     [Range(0, 5f)]
     public float GestureTransitionBuffer_s = 0.25f;
     public Transform finger_index_end;
@@ -17,6 +18,7 @@ public class HandGestureActor : InteractionActor {
     private InteractableObject m_currentPointing;
     private Transform finger_index_2;
     private bool m_startActivation;
+    private bool m_startThrowing;
     private Coroutine m_clearCurrentPointingCoroutine;
 
     void Start()
@@ -27,6 +29,25 @@ public class HandGestureActor : InteractionActor {
     void Update()
     {
         if (TrackingHand == null || !TrackingHand.IsTracking) return;
+
+        if (m_startThrowing)
+        {
+            if (TrackingHand.ContinousCurveAngle > ThrowCurveAngle && TrackingHand.PalmOpen)
+            {
+                var direction = TrackingHand.GetLastCircleDirection();
+                Debug.LogError("THROWN----------------- " + direction);
+
+                var rb = m_currentPointing.gameObject.GetComponent<Rigidbody>();
+                rb.isKinematic = false;
+                rb.AddForce(Vector3.Normalize(direction) * 50);
+
+                ClearCurrentPointing();
+                TrackingHand.MaxCircleRadius = 0.25f;
+                TrackingHand.RadiusThreshold = 0.03f;
+                m_startThrowing = false;
+                TrackingHand.EnableTraceMatch = false;
+            }
+        }
 
         if (m_startActivation)
         {
@@ -54,6 +75,15 @@ public class HandGestureActor : InteractionActor {
         if (m_currentPointing && m_currentPointing.IsActivated)
         {
             Debug.Log("HandGestureActor :: detect throwing...");
+
+            // Demo only
+            if (TrackingHand.Fist)
+            {
+                m_startThrowing = true;
+                TrackingHand.MaxCircleRadius = 0.6f;
+                TrackingHand.RadiusThreshold = 0.2f;
+                // ClearCurrentPointing();
+            }
             return;
         }
 
