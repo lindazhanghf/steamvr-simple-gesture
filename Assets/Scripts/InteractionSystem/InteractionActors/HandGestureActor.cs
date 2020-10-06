@@ -86,9 +86,7 @@ public class HandGestureActor : InteractionActor {
                 {
                     if (m_currentPointing == interactableObj) return; // Pointing at the same object
 
-                    Invoke_StopHovering(m_currentPointing);
-                    if (m_clearCurrentPointingCoroutine != null) StopCoroutine(m_clearCurrentPointingCoroutine);
-                    m_clearCurrentPointingCoroutine = null;
+                    ClearCurrentPointing();
                 }
 
                 Invoke_StartHovering(interactableObj);
@@ -106,8 +104,26 @@ public class HandGestureActor : InteractionActor {
         }
     }
 
+    public void StartHovering(InteractableObject newInteractableObj)
+    {
+        m_currentPointing = newInteractableObj;
+        Invoke_StartHovering(newInteractableObj);
+    }
+
     /* ClearCurrentPointing - START */
-    private void Delay_ClearCurrentPointing()
+    public void ClearCurrentPointing()
+    {
+        if (m_currentPointing)
+        {
+            if (m_debuging) Debug.LogWarning("HandGestureActor :: ClearCurrentPointing & Invoke_StopHovering");
+            Invoke_StopHovering(m_currentPointing);
+            m_currentPointing = null;
+        }
+
+        if (m_clearCurrentPointingCoroutine != null) StopCoroutine(m_clearCurrentPointingCoroutine);
+        m_clearCurrentPointingCoroutine = null;
+    }
+    public void Delay_ClearCurrentPointing()
     {
         if (m_currentPointing == null) return;
         if (m_clearCurrentPointingCoroutine != null) return; // already running
@@ -120,15 +136,6 @@ public class HandGestureActor : InteractionActor {
         yield return new WaitForSeconds(GestureTransitionBuffer_s);
         ClearCurrentPointing();
         m_clearCurrentPointingCoroutine = null;
-    }
-    private void ClearCurrentPointing()
-    {
-        if (m_currentPointing)
-        {
-            if (m_debuging) Debug.LogWarning("HandGestureActor :: ClearCurrentPointing & Invoke_StopHovering");
-            Invoke_StopHovering(m_currentPointing);
-            m_currentPointing = null;
-        }
     }
     /* ClearCurrentPointing - END */
 
