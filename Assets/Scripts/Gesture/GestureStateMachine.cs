@@ -14,20 +14,21 @@ public class GestureStateMachine : StateMachine
         Cancel
     }
 
-    State[] states = new State[6];
-    HandGestureActor m_actor;
+    // State[] states = new State[6];
+    // HandGestureActor m_actor;
 
     public GestureStateMachine(HandGestureActor handGestureActor)
     {
-        m_actor = handGestureActor;
+        // m_actor = handGestureActor;
+        States = new State[6];
 
         // Initialize States
-        states[(int)StateID.Idle] = new State_Idle(handGestureActor, "Idle");
-        // states[(int)StateID.Point] = new State("Point");
-        // states[(int)StateID.Activation] = new State("Activation");
-        // states[(int)StateID.FinishActivation] = new State("FinishActivation");
-        // states[(int)StateID.FinishAction] = new State("FinishAction");
-        // states[(int)StateID.Cancel] = new State("Cancel");
+        States[(int)StateID.Idle] = new State_Idle(handGestureActor, "Idle");
+        States[(int)StateID.Point] = new State_Point(handGestureActor, "Point");
+        // States[(int)StateID.Activation] = new State("Activation");
+        // States[(int)StateID.FinishActivation] = new State("FinishActivation");
+        // States[(int)StateID.FinishAction] = new State("FinishAction");
+        // States[(int)StateID.Cancel] = new State("Cancel");
     }
 }
 

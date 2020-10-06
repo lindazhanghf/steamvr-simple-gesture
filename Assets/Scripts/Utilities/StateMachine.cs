@@ -15,17 +15,19 @@ public class StateMachine
         }
     }
 
-    public void ChangeState(int newState)
+    public void ChangeState(int nextState)
     {
-        ChangeState(States[newState]);
+        if (nextState < 0 || nextState >= States.Length) return;
+
+        ChangeState(States[nextState]);
     }
 
-    public void ChangeState(State newState)
+    public void ChangeState(State nextState)
     {
         State prevState = States[m_currID];
         prevState.OnExit();
-        newState.OnEnter(prevState);
-        m_currID = newState.ID;
+        nextState.OnEnter(prevState);
+        m_currID = nextState.ID;
     }
 
     public int Execute()
