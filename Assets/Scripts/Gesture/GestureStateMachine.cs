@@ -45,47 +45,67 @@ class GestureBaseState : State
 
 class State_Idle : GestureBaseState
 {
+    public State_Idle(HandGestureActor actor, string name) : base(actor, name) {}
+
+    public override bool Execute()
+    {
+        if (hand.IndexFingerPoint)
+            return true;
+
+        return false;
+    }
+}
+
+class State_Point : GestureBaseState
+{
     GameObject m_currentPointing;
     private Transform finger_index_end;
     private Transform finger_index_2;
 
-    public State_Idle(HandGestureActor actor, string name) : base(actor, name)
+    public State_Point(HandGestureActor actor, string name) : base(actor, name)
     {
         finger_index_end = actor.finger_index_end;
         finger_index_2 = finger_index_end.parent;
     }
 
+    public override void OnEnter(State prevState)
+    {
+        hand.IndexFingerTip.gameObject.SetActive(true);
+    }
+
+    public override int OnExit()
+    {
+        hand.IndexFingerTip.gameObject.SetActive(false);
+        return 0;
+    }
+
     public override bool Execute()
     {
-        if (hand.IndexFingerPoint)
+        if (!hand.IndexFingerPoint)
         {
-            hand.IndexFingerTip.gameObject.SetActive(true);
+            Delay_ClearCurrentPointing();
+            return false;
+        }
 
-            Collider hitObj = FindHitObject();
-            if (hitObj)
-            {
-                InteractableObject interactableObj = hitObj.GetComponent<InteractableObject>();
-                if (interactableObj == null) // The object hit is not an interactable object
-                {
-                    Delay_ClearCurrentPointing();
-                    return true;
-                }
-
-                if (m_currentPointing && m_currentPointing == interactableObj) return true; // Pointing at the same object
-                actor.ClearCurrentPointing();
-
-                // Pointing at a new object
-                actor.StartHovering(interactableObj);
-                m_currentPointing = interactableObj.gameObject;
-            }
-            else
+        Collider hitObj = FindHitObject();
+        if (hitObj)
+        {
+            InteractableObject interactableObj = hitObj.GetComponent<InteractableObject>();
+            if (interactableObj == null) // The object hit is not an interactable object
             {
                 Delay_ClearCurrentPointing();
+                return true;
             }
+
+            if (m_currentPointing && m_currentPointing == interactableObj) return true; // Pointing at the same object
+            actor.ClearCurrentPointing();
+
+            // Pointing at a new object
+            actor.StartHovering(interactableObj);
+            m_currentPointing = interactableObj.gameObject;
         }
         else
         {
-            hand.IndexFingerTip.gameObject.SetActive(false);
             Delay_ClearCurrentPointing();
         }
 
