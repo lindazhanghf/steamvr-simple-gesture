@@ -14,7 +14,7 @@ public class HandGestureActor : InteractionActor {
     [Header("Debug")]
     public GameObject DebugHit;
 
-    private InteractableObject m_currentPointing;
+    private InteractableObject m_currInteractiveObject;
     private Transform finger_index_2;
     private bool m_startActivation;
     private Coroutine m_clearCurrentPointingCoroutine;
@@ -51,13 +51,13 @@ public class HandGestureActor : InteractionActor {
             return;
         }
 
-        if (m_currentPointing && m_currentPointing.IsActivated)
+        if (m_currInteractiveObject && m_currInteractiveObject.IsActivated)
         {
             Debug.Log("HandGestureActor :: detect throwing...");
             return;
         }
 
-        if (m_currentPointing && m_currentPointing.IsHovering && TrackingHand.PalmOpen)
+        if (m_currInteractiveObject && m_currInteractiveObject.IsHovering && TrackingHand.PalmOpen)
         {
             m_startActivation = true;
             TrackingHand.EnableTraceMatch = true;
@@ -82,15 +82,15 @@ public class HandGestureActor : InteractionActor {
                     return;
                 }
 
-                if (m_currentPointing)
+                if (m_currInteractiveObject)
                 {
-                    if (m_currentPointing == interactableObj) return; // Pointing at the same object
+                    if (m_currInteractiveObject == interactableObj) return; // Pointing at the same object
 
                     ClearCurrentPointing();
                 }
 
                 Invoke_StartHovering(interactableObj);
-                m_currentPointing = interactableObj;
+                m_currInteractiveObject = interactableObj;
             }
             else
             {
@@ -106,18 +106,18 @@ public class HandGestureActor : InteractionActor {
 
     public void StartHovering(InteractableObject newInteractableObj)
     {
-        m_currentPointing = newInteractableObj;
+        m_currInteractiveObject = newInteractableObj;
         Invoke_StartHovering(newInteractableObj);
     }
 
     /* ClearCurrentPointing - START */
     public void ClearCurrentPointing()
     {
-        if (m_currentPointing)
+        if (m_currInteractiveObject)
         {
             if (m_debuging) Debug.LogWarning("HandGestureActor :: ClearCurrentPointing & Invoke_StopHovering");
-            Invoke_StopHovering(m_currentPointing);
-            m_currentPointing = null;
+            Invoke_StopHovering(m_currInteractiveObject);
+            m_currInteractiveObject = null;
         }
 
         if (m_clearCurrentPointingCoroutine != null) StopCoroutine(m_clearCurrentPointingCoroutine);
@@ -125,7 +125,7 @@ public class HandGestureActor : InteractionActor {
     }
     public void Delay_ClearCurrentPointing()
     {
-        if (m_currentPointing == null) return;
+        if (m_currInteractiveObject == null) return;
         if (m_clearCurrentPointingCoroutine != null) return; // already running
 
         if (m_debuging) Debug.Log("HandGestureActor :: Delay_ClearCurrentPointing -- delaying for " + GestureTransitionBuffer_s);
