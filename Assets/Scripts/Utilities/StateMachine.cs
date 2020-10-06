@@ -28,9 +28,14 @@ public class StateMachine
         m_currID = newState.ID;
     }
 
-    public bool Execute()
+    public int Execute()
     {
-        return States[m_currID].Execute();
+        int nextState = States[m_currID].Execute();
+        if (nextState >= 0)
+        {
+            ChangeState(nextState);
+        } 
+        return nextState;
     }
 }
 
@@ -44,14 +49,14 @@ public class State
         Debug.Log("State [" + Name + "] OnEnter :: prevState = " + prevState.Name);
     }
 
-    public virtual bool Execute()
+    /// <returns>ID of the next state; -1 if staying in current state</returns>
+    public virtual int Execute()
     {
-        return true;
+        return -1;
     }
 
-    public virtual int OnExit()
+    public virtual void OnExit()
     {
         Debug.Log("State [" + Name + "] OnExit");
-        return 0;
     }
 }

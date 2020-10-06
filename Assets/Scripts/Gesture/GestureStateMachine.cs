@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GestureStateMachine : StateMachine
 {
-    enum StateID : int
+    public enum StateID : int
     {
         Idle,
         Point,
@@ -47,12 +47,12 @@ class State_Idle : GestureBaseState
 {
     public State_Idle(HandGestureActor actor, string name) : base(actor, name) {}
 
-    public override bool Execute()
+    public override int Execute()
     {
         if (hand.IndexFingerPoint)
-            return true;
+            return (int)GestureStateMachine.StateID.Point;
 
-        return false;
+        return -1;
     }
 }
 
@@ -73,18 +73,17 @@ class State_Point : GestureBaseState
         hand.IndexFingerTip.gameObject.SetActive(true);
     }
 
-    public override int OnExit()
+    public override void OnExit()
     {
         hand.IndexFingerTip.gameObject.SetActive(false);
-        return 0;
     }
 
-    public override bool Execute()
+    public override int Execute()
     {
         if (!hand.IndexFingerPoint)
         {
             Delay_ClearCurrentPointing();
-            return false;
+            return (int)GestureStateMachine.StateID.Idle;
         }
 
         Collider hitObj = FindHitObject();
@@ -94,10 +93,10 @@ class State_Point : GestureBaseState
             if (interactableObj == null) // The object hit is not an interactable object
             {
                 Delay_ClearCurrentPointing();
-                return true;
+                return -1;
             }
 
-            if (m_currentPointing && m_currentPointing == interactableObj) return true; // Pointing at the same object
+            if (m_currentPointing && m_currentPointing == interactableObj) return -1; // Pointing at the same object
             actor.ClearCurrentPointing();
 
             // Pointing at a new object
@@ -109,7 +108,7 @@ class State_Point : GestureBaseState
             Delay_ClearCurrentPointing();
         }
 
-        return true;
+        return -1;
     }
 
     private void Delay_ClearCurrentPointing()
