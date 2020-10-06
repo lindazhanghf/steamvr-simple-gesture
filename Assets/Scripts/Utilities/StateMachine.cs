@@ -7,12 +7,14 @@ public class StateMachine
     public State[] States;
     private int m_currID = 0;
 
-    void Start()
+    public void Initialize(int startState = -1)
     {
         for (int i = 0; i < States.Length; i++)
         {
             States[i].ID = i;
         }
+
+        if (startState > 0) ChangeState(startState);
     }
 
     public void ChangeState(int nextState)

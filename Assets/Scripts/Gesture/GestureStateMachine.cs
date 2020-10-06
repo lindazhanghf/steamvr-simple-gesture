@@ -39,8 +39,8 @@ class GestureBaseState : State
     public GestureBaseState(HandGestureActor handGestureActor, string name)
     {
         Name = name;
-        handGestureActor = actor;
-        hand = actor.TrackingHand;
+        actor = handGestureActor;
+        hand = handGestureActor.TrackingHand;
     }
 }
 
@@ -71,11 +71,13 @@ class State_Point : GestureBaseState
 
     public override void OnEnter(State prevState)
     {
+        base.OnEnter(prevState);
         hand.IndexFingerTip.gameObject.SetActive(true);
     }
 
     public override void OnExit()
     {
+        base.OnExit();
         hand.IndexFingerTip.gameObject.SetActive(false);
     }
 
