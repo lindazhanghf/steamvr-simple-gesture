@@ -14,6 +14,7 @@ public class HandGestureActor : InteractionActor {
     [Header("Debug")]
     public GameObject DebugHit;
 
+    protected GestureStateMachine m_GestureStateMachine;
     private InteractableObject m_currInteractiveObject;
     private Transform finger_index_2;
     private bool m_startActivation;
@@ -22,11 +23,24 @@ public class HandGestureActor : InteractionActor {
     void Start()
     {
         finger_index_2 = finger_index_end.parent;
+        StartCoroutine(WaitForTrackingHand());
+    }
+
+    IEnumerator WaitForTrackingHand()
+    {
+        while (!TrackingHand.IsTracking) yield return new WaitForSeconds(1f);
+        Debug.Log("TrackingHand is enabled :: TrackingHand.IsTracking - " + TrackingHand.Hand.ToString());
+
+        m_GestureStateMachine = new GestureStateMachine(this);
+        m_GestureStateMachine.Initialize((int)GestureStateMachine.StateID.Idle);
     }
 
     void Update()
     {
-        if (TrackingHand == null || !TrackingHand.IsTracking) return;
+        if (m_GestureStateMachine == null) return;
+
+        m_GestureStateMachine.Execute();
+        return;
 
         if (m_startActivation)
         {
@@ -65,42 +79,6 @@ public class HandGestureActor : InteractionActor {
             if (m_clearCurrentPointingCoroutine != null) StopCoroutine(m_clearCurrentPointingCoroutine);
             m_clearCurrentPointingCoroutine = null;
             return;
-        }
-        
-        if (TrackingHand.IndexFingerPoint)
-        {
-            TrackingHand.IndexFingerTip.gameObject.SetActive(true);
-
-            Collider hitObj = FindHitObject();
-            if (hitObj)
-            {
-                InteractableObject interactableObj = hitObj.GetComponent<InteractableObject>();
-                // if (m_debuging) Debug.Log("HandGestureActor :: HIIIIIIITING " + hitObj.name + " " + interactableObj != null);
-                if (interactableObj == null) // The object hit is not an interactable object
-                {
-                    Delay_ClearCurrentPointing();
-                    return;
-                }
-
-                if (m_currInteractiveObject)
-                {
-                    if (m_currInteractiveObject == interactableObj) return; // Pointing at the same object
-
-                    ClearCurrentPointing();
-                }
-
-                Invoke_StartHovering(interactableObj);
-                m_currInteractiveObject = interactableObj;
-            }
-            else
-            {
-                Delay_ClearCurrentPointing();
-            }
-        }
-        else
-        {
-            TrackingHand.IndexFingerTip.gameObject.SetActive(false);
-            Delay_ClearCurrentPointing();
         }
     }
 
