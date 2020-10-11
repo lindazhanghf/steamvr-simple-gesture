@@ -194,7 +194,6 @@ public class HandTracker : MonoBehaviour
             else
             {
                 Debug.Log(Hand.ToString() + " < 25");
-                ResetContinousCurve();
                 ResetDebug();
             }
         }
@@ -287,6 +286,7 @@ public class HandTracker : MonoBehaviour
         }
 
         m_debugReset = true;
+        ResetContinousCurve();
     }
 
     /// Helper Functions ///
