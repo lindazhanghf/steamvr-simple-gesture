@@ -19,7 +19,7 @@ public class GestureStateMachine : StateMachine
         States[STATE_Idle] = new State_Idle(handGestureActor, "Idle");
         States[STATE_Point] = new State_Point(handGestureActor, "Point");
         States[STATE_Activation] = new State_Activation(handGestureActor, "Activation");
-        States[STATE_FinishActivation] = new State();
+        States[STATE_FinishActivation] = new State_FinishActivation(handGestureActor, "FinishActivation");
         States[STATE_FinishAction] = new State();
         States[STATE_Buffer] = new State_Buffer(handGestureActor, "Buffer");
 
@@ -29,9 +29,10 @@ public class GestureStateMachine : StateMachine
 
 class GestureBaseState : State
 {
-    public float GestureTransitionBuffer_s = 0.25f;
-    public HandGestureActor actor; 
-    public HandTracker hand;
+    protected const int FullCircleAngle = 360;
+    protected const float GestureTransitionBuffer_s = 0.25f;
+    protected HandGestureActor actor; 
+    protected HandTracker hand;
     public GestureBaseState(HandGestureActor handGestureActor, string name)
     {
         Name = name;
@@ -157,6 +158,51 @@ class State_Activation : GestureBaseState
         {
             return GestureStateMachine.STATE_Buffer;
         }
+
+        if (hand.ContinousCurveAngle > FullCircleAngle)
+        {
+            Debug.LogWarning("State_Activation :: activated, ContinousCurveAngle = " + hand.ContinousCurveAngle);
+            return GestureStateMachine.STATE_FinishActivation;
+        }
+
+        return -1;
+    }
+}
+
+class State_FinishActivation : GestureBaseState
+{
+    float lastActivatedAngle;
+    public State_FinishActivation(HandGestureActor actor, string name) : base(actor, name) {}
+
+    public override void OnEnter(State prevState)
+    {
+        base.OnEnter(prevState);
+        actor.Activate();
+        lastActivatedAngle = hand.ContinousCurveAngle;
+    }
+
+    public override int Execute()
+    {
+        if (hand.ContinousCurveAngle > lastActivatedAngle + FullCircleAngle)
+        {
+            Debug.LogWarning("State_Activation :: activated AGAIN, ContinousCurveAngle = " + hand.ContinousCurveAngle);
+            actor.Activate(); // keep activating
+            lastActivatedAngle = hand.ContinousCurveAngle;
+        }
+        else if (hand.ContinousCurveAngle == 0)
+        {
+            lastActivatedAngle = 0;
+        }
+
+        if (hand.IndexFingerPoint) // user might change target
+        {
+            return GestureStateMachine.STATE_Buffer;
+        }
+
+        // if (hand.Fist)
+        // {
+        //     return GestureStateMachine.STATE_Throwing;
+        // }
 
         return -1;
     }

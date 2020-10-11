@@ -34,13 +34,6 @@ public class HandGestureActor : InteractionActor {
         if (m_GestureStateMachine == null) return;
 
         m_GestureStateMachine.Execute();
-        return;
-
-        if (m_currentObject && m_currentObject.IsActivated)
-        {
-            Debug.Log("HandGestureActor :: detect throwing...");
-            return;
-        }
     }
 
     public void StartHovering(InteractableObject newInteractableObj)
@@ -56,6 +49,11 @@ public class HandGestureActor : InteractionActor {
             if (m_debuging) Debug.LogWarning("HandGestureActor :: StopHovering");
             Invoke_StopHovering(m_currentObject);
         }
+    }
+
+    public void Activate()
+    {
+        Invoke_Activation();
     }
 
     private Collider FindHitObject()
