@@ -32,7 +32,6 @@ public class HandGestureActor : InteractionActor {
         Debug.Log("TrackingHand is enabled :: TrackingHand.IsTracking - " + TrackingHand.Hand.ToString());
 
         m_GestureStateMachine = new GestureStateMachine(this);
-        m_GestureStateMachine.Initialize((int)GestureStateMachine.StateID.Idle);
     }
 
     void Update()
