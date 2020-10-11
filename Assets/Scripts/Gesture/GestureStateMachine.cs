@@ -4,33 +4,26 @@ using UnityEngine;
 
 public class GestureStateMachine : StateMachine
 {
-    public enum StateID : int
-    {
-        Idle = 0,
-        Point = 1,
-        Activation = 2,
-        FinishActivation = 3,
-        FinishAction = 4,
-        Cancel = 5
-    }
-
-    // State[] states = new State[6];
-    // HandGestureActor m_actor;
+    public const int STATE_Idle = 0;
+    public const int STATE_Point = 1;
+    public const int STATE_Activation = 2;
+    public const int STATE_FinishActivation = 3;
+    public const int STATE_FinishAction = 4;
+    public const int STATE_Cancel = 5;
 
     public GestureStateMachine(HandGestureActor handGestureActor)
     {
-        // m_actor = handGestureActor;
         States = new State[6];
 
         // Initialize States
-        States[(int)StateID.Idle] = new State_Idle(handGestureActor, "Idle");
-        States[(int)StateID.Point] = new State_Point(handGestureActor, "Point");
-        States[(int)StateID.Activation] = new State_Activation(handGestureActor, "Activation");
-        States[(int)StateID.FinishActivation] = new State();
-        States[(int)StateID.FinishAction] = new State();
-        States[(int)StateID.Cancel] = new State_Cancel(handGestureActor, "Cancel");
+        States[STATE_Idle] = new State_Idle(handGestureActor, "Idle");
+        States[STATE_Point] = new State_Point(handGestureActor, "Point");
+        States[STATE_Activation] = new State_Activation(handGestureActor, "Activation");
+        States[STATE_FinishActivation] = new State();
+        States[STATE_FinishAction] = new State();
+        States[STATE_Cancel] = new State_Cancel(handGestureActor, "Cancel");
 
-        Initialize((int)StateID.Idle);
+        Initialize(STATE_Idle);
     }
 }
 
@@ -54,7 +47,7 @@ class State_Idle : GestureBaseState
     public override int Execute()
     {
         if (hand.IndexFingerPoint)
-            return (int)GestureStateMachine.StateID.Point;
+            return GestureStateMachine.STATE_Point;
 
         return -1;
     }
@@ -68,7 +61,7 @@ class State_Activation : GestureBaseState
     {
         if (!hand.PalmOpen)
         {
-            return (int)GestureStateMachine.StateID.Cancel;
+            return GestureStateMachine.STATE_Cancel;
         }
 
         return -1;
@@ -104,7 +97,7 @@ class State_Point : GestureBaseState
         if (!hand.IndexFingerPoint)
         {
             Delay_ClearCurrentPointing();
-            return (int)GestureStateMachine.StateID.Cancel;
+            return GestureStateMachine.STATE_Cancel;
         }
 
         if (hand.PalmOpen && m_currentPointing && m_currentPointing.IsHovering)
@@ -114,7 +107,7 @@ class State_Point : GestureBaseState
 
             // if (m_clearCurrentPointingCoroutine != null) StopCoroutine(m_clearCurrentPointingCoroutine);
             // m_clearCurrentPointingCoroutine = null;
-            return (int)GestureStateMachine.StateID.Activation;
+            return GestureStateMachine.STATE_Activation;
         }
 
         Collider hitObj = FindHitObject();
@@ -190,17 +183,20 @@ class State_Cancel : GestureBaseState
     {
         if (m_canceled)
         {
-            return (int)GestureStateMachine.StateID.Idle;
+            return GestureStateMachine.STATE_Idle;
         }
 
         // if within gesture transition time buffer, go to next state
-        if (PreviousState.ID == (int)GestureStateMachine.StateID.Point)
+        switch (PreviousState.ID)
         {
-            if (hand.PalmOpen) return (int)GestureStateMachine.StateID.Activation;
-        }
-        if (PreviousState.ID == (int)GestureStateMachine.StateID.Activation)
-        {
-            if (hand.PalmOpen) return (int)GestureStateMachine.StateID.Activation;
+            case GestureStateMachine.STATE_Point:
+                if (hand.PalmOpen) return GestureStateMachine.STATE_Activation;
+                break;
+            case GestureStateMachine.STATE_Activation:
+                if (hand.PalmOpen) return GestureStateMachine.STATE_Activation;
+                break;
+            default:
+                break;
         }
 
         return -1;
