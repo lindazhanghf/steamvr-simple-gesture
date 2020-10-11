@@ -9,7 +9,7 @@ public class GestureStateMachine : StateMachine
     public const int STATE_Activation = 2;
     public const int STATE_FinishActivation = 3;
     public const int STATE_FinishAction = 4;
-    public const int STATE_Cancel = 5;
+    public const int STATE_Buffer = 5;
 
     public GestureStateMachine(HandGestureActor handGestureActor)
     {
@@ -21,7 +21,7 @@ public class GestureStateMachine : StateMachine
         States[STATE_Activation] = new State_Activation(handGestureActor, "Activation");
         States[STATE_FinishActivation] = new State();
         States[STATE_FinishAction] = new State();
-        States[STATE_Cancel] = new State_Cancel(handGestureActor, "Cancel");
+        States[STATE_Buffer] = new State_Buffer(handGestureActor, "Buffer");
 
         Initialize(STATE_Idle);
     }
@@ -61,7 +61,7 @@ class State_Activation : GestureBaseState
     {
         if (!hand.PalmOpen)
         {
-            return GestureStateMachine.STATE_Cancel;
+            return GestureStateMachine.STATE_Buffer;
         }
 
         return -1;
@@ -97,7 +97,7 @@ class State_Point : GestureBaseState
         if (!hand.IndexFingerPoint)
         {
             Delay_ClearCurrentPointing();
-            return GestureStateMachine.STATE_Cancel;
+            return GestureStateMachine.STATE_Buffer;
         }
 
         if (hand.PalmOpen && m_currentPointing && m_currentPointing.IsHovering)
@@ -154,18 +154,18 @@ class State_Point : GestureBaseState
     }
 }
 
-class State_Cancel : GestureBaseState
+class State_Buffer : GestureBaseState
 {
     State PreviousState;
-    private Coroutine m_CancelGestureCoroutine;
+    private Coroutine m_BufferGestureCoroutine;
     private bool m_canceled;
 
-    public State_Cancel(HandGestureActor actor, string name) : base(actor, name) {}
+    public State_Buffer(HandGestureActor actor, string name) : base(actor, name) {}
 
     public void CancelGesture()
     {
         actor.ClearCurrentPointing();
-        Debug.Log("State_Cancel :: Buffer ended, Canceled");
+        Debug.Log("State_Buffer :: Buffer ended, gesture canceled");
         m_canceled = true;
     }
 
@@ -175,8 +175,8 @@ class State_Cancel : GestureBaseState
         PreviousState = prevState;
 
         m_canceled = false;
-        Debug.Log("State_Cancel :: Start CancelGestureBuffer " + m_canceled);
-        m_CancelGestureCoroutine = actor.StartCoroutine(CancelGestureBuffer());
+        Debug.Log("State_Buffer :: Start GestureTransitionBuffer coroutine");
+        m_BufferGestureCoroutine = actor.StartCoroutine(GestureTransitionBuffer());
     }
 
     public override int Execute()
@@ -206,11 +206,11 @@ class State_Cancel : GestureBaseState
     {
         base.OnExit();
         m_canceled = false;
-        if (m_CancelGestureCoroutine != null) actor.StopCoroutine(m_CancelGestureCoroutine);
-        m_CancelGestureCoroutine = null;
+        if (m_BufferGestureCoroutine != null) actor.StopCoroutine(m_BufferGestureCoroutine);
+        m_BufferGestureCoroutine = null;
     }
 
-    private IEnumerator CancelGestureBuffer()
+    private IEnumerator GestureTransitionBuffer()
     {
         yield return new WaitForSeconds(GestureTransitionBuffer_s);
         CancelGesture();
