@@ -15,7 +15,6 @@ public class HandGestureActor : InteractionActor {
     public GameObject DebugHit;
 
     protected GestureStateMachine m_GestureStateMachine;
-    private InteractableObject m_currInteractiveObject;
     private Transform finger_index_2;
     private bool m_startActivation;
     private Coroutine m_clearCurrentPointingCoroutine;
@@ -64,13 +63,13 @@ public class HandGestureActor : InteractionActor {
             return;
         }
 
-        if (m_currInteractiveObject && m_currInteractiveObject.IsActivated)
+        if (m_currentObject && m_currentObject.IsActivated)
         {
             Debug.Log("HandGestureActor :: detect throwing...");
             return;
         }
 
-        if (m_currInteractiveObject && m_currInteractiveObject.IsHovering && TrackingHand.PalmOpen)
+        if (m_currentObject && m_currentObject.IsHovering && TrackingHand.PalmOpen)
         {
             m_startActivation = true;
             TrackingHand.EnableTraceMatch = true;
@@ -83,17 +82,16 @@ public class HandGestureActor : InteractionActor {
 
     public void StartHovering(InteractableObject newInteractableObj)
     {
-        m_currInteractiveObject = newInteractableObj;
+        if (m_debuging) Debug.LogWarning("HandGestureActor :: StartHovering");
         Invoke_StartHovering(newInteractableObj);
     }
 
     public void StopHovering()
     {
-        if (m_currInteractiveObject)
+        if (m_currentObject)
         {
-            if (m_debuging) Debug.LogWarning("HandGestureActor :: StartHovering");
-            Invoke_StopHovering(m_currInteractiveObject);
-            m_currInteractiveObject = null;
+            if (m_debuging) Debug.LogWarning("HandGestureActor :: StopHovering");
+            Invoke_StopHovering(m_currentObject);
         }
     }
 
