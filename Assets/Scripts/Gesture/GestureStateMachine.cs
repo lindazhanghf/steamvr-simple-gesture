@@ -73,6 +73,7 @@ class State_Point : GestureBaseState
     InteractableObject m_currentPointing;
     private Transform finger_index_end;
     private Transform finger_index_2;
+    private Coroutine m_clearCurrentPointingCoroutine;
 
     public State_Point(HandGestureActor actor, string name) : base(actor, name)
     {
@@ -96,7 +97,7 @@ class State_Point : GestureBaseState
     {
         if (!hand.IndexFingerPoint)
         {
-            Delay_ClearCurrentPointing();
+            // Delay_ClearHovering();
             return GestureStateMachine.STATE_Buffer;
         }
 
@@ -116,12 +117,12 @@ class State_Point : GestureBaseState
             InteractableObject interactableObj = hitObj.GetComponent<InteractableObject>();
             if (interactableObj == null) // The object hit is not an interactable object
             {
-                Delay_ClearCurrentPointing();
+                Delay_ClearHovering();
                 return -1;
             }
 
             if (m_currentPointing && m_currentPointing == interactableObj) return -1; // Pointing at the same object
-            actor.ClearCurrentPointing();
+            actor.StopHovering();
 
             // Pointing at a new object
             actor.StartHovering(interactableObj);
@@ -129,16 +130,10 @@ class State_Point : GestureBaseState
         }
         else
         {
-            Delay_ClearCurrentPointing();
+            Delay_ClearHovering();
         }
 
         return -1;
-    }
-
-    private void Delay_ClearCurrentPointing()
-    {
-        m_currentPointing = null;
-        actor.Delay_ClearCurrentPointing();
     }
 
     private Collider FindHitObject()
@@ -152,6 +147,23 @@ class State_Point : GestureBaseState
 
         return null;
     }
+
+    private void Delay_ClearHovering()
+    {
+        if (m_currentPointing == null) return;
+        if (m_clearCurrentPointingCoroutine != null) return; // already running
+
+        Debug.Log("HandGestureActor :: Delay_ClearHovering start");
+        m_clearCurrentPointingCoroutine = actor.StartCoroutine(ClearHoveringCoroutine());
+        m_currentPointing = null;
+    }
+
+    private IEnumerator ClearHoveringCoroutine()
+    {
+        yield return new WaitForSeconds(GestureTransitionBuffer_s);
+        actor.StopHovering();
+        m_clearCurrentPointingCoroutine = null;
+    }
 }
 
 class State_Buffer : GestureBaseState
@@ -164,9 +176,11 @@ class State_Buffer : GestureBaseState
 
     public void CancelGesture()
     {
-        actor.ClearCurrentPointing();
         Debug.Log("State_Buffer :: Buffer ended, gesture canceled");
         m_canceled = true;
+
+        actor.StopHovering();
+        hand.EnableTraceMatch = false;
     }
 
     public override void OnEnter(State prevState)

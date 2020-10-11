@@ -87,34 +87,15 @@ public class HandGestureActor : InteractionActor {
         Invoke_StartHovering(newInteractableObj);
     }
 
-    /* ClearCurrentPointing - START */
-    public void ClearCurrentPointing()
+    public void StopHovering()
     {
         if (m_currInteractiveObject)
         {
-            if (m_debuging) Debug.LogWarning("HandGestureActor :: ClearCurrentPointing & Invoke_StopHovering");
+            if (m_debuging) Debug.LogWarning("HandGestureActor :: StartHovering");
             Invoke_StopHovering(m_currInteractiveObject);
             m_currInteractiveObject = null;
         }
-
-        if (m_clearCurrentPointingCoroutine != null) StopCoroutine(m_clearCurrentPointingCoroutine);
-        m_clearCurrentPointingCoroutine = null;
     }
-    public void Delay_ClearCurrentPointing()
-    {
-        if (m_currInteractiveObject == null) return;
-        if (m_clearCurrentPointingCoroutine != null) return; // already running
-
-        if (m_debuging) Debug.Log("HandGestureActor :: Delay_ClearCurrentPointing -- delaying for " + GestureTransitionBuffer_s);
-        m_clearCurrentPointingCoroutine = StartCoroutine(ClearCurrentPointingCoroutine());
-    }
-    private IEnumerator ClearCurrentPointingCoroutine()
-    {
-        yield return new WaitForSeconds(GestureTransitionBuffer_s);
-        ClearCurrentPointing();
-        m_clearCurrentPointingCoroutine = null;
-    }
-    /* ClearCurrentPointing - END */
 
     private Collider FindHitObject()
     {
