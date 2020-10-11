@@ -53,21 +53,6 @@ class State_Idle : GestureBaseState
     }
 }
 
-class State_Activation : GestureBaseState
-{
-    public State_Activation(HandGestureActor actor, string name) : base(actor, name) {}
-
-    public override int Execute()
-    {
-        if (!hand.PalmOpen)
-        {
-            return GestureStateMachine.STATE_Buffer;
-        }
-
-        return -1;
-    }
-}
-
 class State_Point : GestureBaseState
 {
     InteractableObject m_currentPointing;
@@ -99,16 +84,6 @@ class State_Point : GestureBaseState
         {
             // Delay_ClearHovering();
             return GestureStateMachine.STATE_Buffer;
-        }
-
-        if (hand.PalmOpen && m_currentPointing && m_currentPointing.IsHovering)
-        {
-            // m_startActivation = true;
-            hand.EnableTraceMatch = true;
-
-            // if (m_clearCurrentPointingCoroutine != null) StopCoroutine(m_clearCurrentPointingCoroutine);
-            // m_clearCurrentPointingCoroutine = null;
-            return GestureStateMachine.STATE_Activation;
         }
 
         Collider hitObj = FindHitObject();
@@ -163,6 +138,27 @@ class State_Point : GestureBaseState
         yield return new WaitForSeconds(GestureTransitionBuffer_s);
         actor.StopHovering();
         m_clearCurrentPointingCoroutine = null;
+    }
+}
+
+class State_Activation : GestureBaseState
+{
+    public State_Activation(HandGestureActor actor, string name) : base(actor, name) {}
+
+    public override void OnEnter(State prevState)
+    {
+        base.OnEnter(prevState);
+        hand.EnableTraceMatch = true;
+    }
+
+    public override int Execute()
+    {
+        if (!hand.PalmOpen)
+        {
+            return GestureStateMachine.STATE_Buffer;
+        }
+
+        return -1;
     }
 }
 
