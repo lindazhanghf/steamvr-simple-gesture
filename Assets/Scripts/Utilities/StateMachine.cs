@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class StateMachine
 {
     public State[] States;
-    private int m_currID = 0;
+    private State m_currState;
 
     public void Initialize(int startState = -1)
     {
@@ -14,10 +12,10 @@ public class StateMachine
             States[i].ID = i;
         }
 
-        if (startState > 0) ChangeState(startState);
+        if (startState >= 0) ChangeStateByID(startState);
     }
 
-    public void ChangeState(int nextState)
+    public void ChangeStateByID(int nextState)
     {
         if (nextState < 0 || nextState >= States.Length) return;
 
@@ -26,18 +24,20 @@ public class StateMachine
 
     public void ChangeState(State nextState)
     {
-        State prevState = States[m_currID];
-        prevState.OnExit();
-        nextState.OnEnter(prevState);
-        m_currID = nextState.ID;
+        if (m_currState != null) m_currState.OnExit();
+        nextState.OnEnter(m_currState);
+        
+        m_currState = nextState;
     }
 
     public int Execute()
     {
-        int nextState = States[m_currID].Execute();
+        if (m_currState == null) return -1;
+
+        int nextState = m_currState.Execute();
         if (nextState >= 0)
         {
-            ChangeState(nextState);
+            ChangeStateByID(nextState);
         } 
         return nextState;
     }
@@ -50,7 +50,10 @@ public class State
 
     public virtual void OnEnter(State prevState)
     {
-        Debug.Log("State [" + Name + "] OnEnter :: prevState = " + prevState.Name);
+        if (prevState == null)
+            Debug.Log("State [" + Name + "] OnEnter");
+        else
+            Debug.Log("State [" + Name + "] OnEnter :: prevState = " + prevState.Name);
     }
 
     /// <returns>ID of the next state; -1 if staying in current state</returns>
