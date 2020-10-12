@@ -22,12 +22,14 @@ public class HandTracker : MonoBehaviour
 
     [Header("Hand Gesture")]
     public FingerGestureSetting FingerSetting;
-    [Range(0f, 0.5f)]
+    public Transform Wrist;
+    [Range(0f, 5f)]
     public float PalmOpenThreshold = 1f; // sum of 5 fingers curl value
     public bool PalmOpen
     {
         get { return SumFingerCurls() < PalmOpenThreshold; }
     }
+    public bool HandStraightUp => Wrist.eulerAngles.x > 270f && Wrist.eulerAngles.x < 300f; // TODO: use head direction for PalmForward
     public bool IndexFingerPoint
     {
         get 
@@ -83,10 +85,10 @@ public class HandTracker : MonoBehaviour
 
 
     [Header("Trace Match - Curve")]
-    public CurveType CurveMode;
+    public CurveType CurveDetection;
     public enum CurveType
     {
-        Cirlce, Curve
+        Circle, NonCircle
     }
     public float ContinousCurveAngle { get; private set; }
     private Vector3 m_curveLastFrame = Vector3.zero;
