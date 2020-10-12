@@ -16,12 +16,11 @@ public class HandTracker : MonoBehaviour
     public bool IsTracking { get; private set; }
 
     [Header("SteamVR References")]
-    public Transform Camera;
     public HandType Hand;
     private SteamVR_Action_Skeleton m_skeletonAction;
 
 
-    [Header("Hand Tracking")]
+    [Header("Hand Gesture")]
     public FingerGestureSetting FingerSetting;
     [Range(0f, 0.5f)]
     public float PalmOpenThreshold = 1f; // sum of 5 fingers curl value
@@ -54,16 +53,11 @@ public class HandTracker : MonoBehaviour
     private float m_sumFingerCurls;
 
 
-    [Header("Body Tracking")]
-    public bool SameSideOfBody;
-    public bool OnShoulder;
-    public bool AboveHead
-    {
-        get { return transform.position.y > Camera.position.y; }
-    }
-
-
     [Header("Trace Match")]
+    public float RadiusThreshold = 0.01f;
+    public float MaxCircleRadius = 0.25f;
+    public float MinCircleRadius = 0.05f;
+    public int NumFramesAllowed = 25;
     private bool m_enableTraceMatch;
     public bool EnableTraceMatch
     {
@@ -73,11 +67,6 @@ public class HandTracker : MonoBehaviour
             if (!value) ResetDebug();
         }
     }
-    public float RadiusThreshold = 0.01f;
-    public float MaxCircleRadius = 0.25f;
-    public float MinCircleRadius = 0.05f;
-    public int NumFramesAllowed = 25;
-    public float AngleContinousCurve { get; private set; }
 
     private Coroutine m_TraceMatchCoroutine;
     private Vector3[] m_frames = new Vector3[30];
@@ -91,14 +80,21 @@ public class HandTracker : MonoBehaviour
     {
         get { return m_circleRadius - RadiusThreshold; }
     }
-    // Continous Curve
+
+
+    [Header("Trace Match - Curve")]
+    public CurveType CurveMode;
+    public enum CurveType
+    {
+        Cirlce, Curve
+    }
     public float ContinousCurveAngle { get; private set; }
     private Vector3 m_curveLastFrame = Vector3.zero;
     private Vector3 m_curveStartCenter = Vector3.zero;
     private int m_curveStartFrameIndex;
 
 
-    [Header("Trace Match - Debug")]
+    [Header("Trace Match - Debug ")]
     public Transform IndexFingerTip;
     public Transform CenterSphere;
     public Color DebugColor = Color.red;
