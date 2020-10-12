@@ -31,7 +31,7 @@ public class HandTracker : MonoBehaviour
     {
         get { return SumFingerCurls() < PalmOpenThreshold; }
     }
-    public bool HandStraightUp => Wrist.eulerAngles.x > 270f && Wrist.eulerAngles.x < 300f; // TODO: use head direction for PalmForward
+    public bool PalmForward => Wrist.eulerAngles.x > 275f && Wrist.eulerAngles.x < 295f; // TODO: use head direction
     public bool IndexFingerPoint
     {
         get 

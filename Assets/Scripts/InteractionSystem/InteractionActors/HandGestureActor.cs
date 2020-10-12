@@ -34,6 +34,17 @@ public class HandGestureActor : InteractionActor {
         if (m_GestureStateMachine == null) return;
 
         m_GestureStateMachine.Execute();
+
+        /* The following code should only be executed on one hand (right) */
+        if (TrackingHand.Hand == HandTracker.HandType.Left) return;
+
+        /// [Gesture] UNDO / halt
+        if (HandTracker.LeftHand.PalmForward && HandTracker.LeftHand.PalmOpen 
+            && HandTracker.RightHand.PalmForward && HandTracker.RightHand.PalmOpen)
+        {
+            // TODO: check if there is an action that can be undone
+            Debug.Log("HandGestureActor :: [Gesture] UNDO");
+        }
     }
 
     public void StartHovering(InteractableObject newInteractableObj)
