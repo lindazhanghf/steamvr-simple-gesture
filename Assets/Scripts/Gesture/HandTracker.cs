@@ -6,6 +6,8 @@ using Valve.VR;
 
 public class HandTracker : MonoBehaviour
 {
+    public static HandTracker LeftHand { get; private set; }
+    public static HandTracker RightHand { get; private set; }
     public enum HandType : int
     {
         Left = -1,
@@ -107,6 +109,9 @@ public class HandTracker : MonoBehaviour
 
     void Awake()
     {
+        if (Hand == HandType.Left) LeftHand = this;
+        else if (Hand == HandType.Right) RightHand = this;
+
         m_debugMaterial = GetComponent<MeshRenderer>().material;
 
         // TODO: get using SteamVR_Input_Sources
@@ -121,6 +126,13 @@ public class HandTracker : MonoBehaviour
     void OnDisable()
     {
         if (m_TraceMatchCoroutine != null) StopCoroutine(m_TraceMatchCoroutine);
+    }
+
+    public static HandTracker GetHandByType(HandType type)
+    {
+        if (type == HandType.Left) return LeftHand;
+        if (type == HandType.Right) return RightHand;
+        return null;
     }
 
     private IEnumerator InitializeHandDataCollection()
