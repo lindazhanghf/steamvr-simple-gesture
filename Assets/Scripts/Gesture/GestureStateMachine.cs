@@ -8,7 +8,7 @@ public class GestureStateMachine : StateMachine
     public const int STATE_Point = 1;
     public const int STATE_Activation = 2;
     public const int STATE_FinishActivation = 3;
-    public const int STATE_FinishAction = 4;
+    public const int STATE_ThrowingAction = 4;
     public const int STATE_Buffer = 5;
 
     public GestureStateMachine(HandGestureActor handGestureActor)
@@ -20,7 +20,7 @@ public class GestureStateMachine : StateMachine
         States[STATE_Point] = new State_Point(handGestureActor, "Point");
         States[STATE_Activation] = new State_Activation(handGestureActor, "Activation");
         States[STATE_FinishActivation] = new State_FinishActivation(handGestureActor, "FinishActivation");
-        States[STATE_FinishAction] = new State();
+        States[STATE_ThrowingAction] = new State_ThrowingAction(handGestureActor, "ThrowingAction");
         States[STATE_Buffer] = new State_Buffer(handGestureActor, "Buffer");
 
         Initialize(STATE_Idle);
@@ -150,6 +150,7 @@ class State_Activation : GestureBaseState
     {
         base.OnEnter(prevState);
         hand.EnableTraceMatch = true;
+        hand.CurveDetection = HandTracker.CurveType.Circle;
     }
 
     public override int Execute()
@@ -196,13 +197,51 @@ class State_FinishActivation : GestureBaseState
 
         if (hand.IndexFingerPoint) // user might change target
         {
-            return GestureStateMachine.STATE_Buffer;
+            // return GestureStateMachine.STATE_Buffer; // TODO:
         }
 
-        // if (hand.Fist)
-        // {
-        //     return GestureStateMachine.STATE_Throwing;
-        // }
+        if (hand.Fist)
+        {
+            return GestureStateMachine.STATE_ThrowingAction;
+        }
+
+        return -1;
+    }
+}
+
+class State_ThrowingAction : GestureBaseState
+{
+    public State_ThrowingAction(HandGestureActor actor, string name) : base(actor, name) {}
+
+    public override void OnEnter(State prevState)
+    {
+        base.OnEnter(prevState);
+        hand.CurveDetection = HandTracker.CurveType.NonCircle;
+    }
+
+    public override void OnExit()
+    {
+        base.OnExit();
+        hand.CurveDetection = HandTracker.CurveType.Circle;
+    }
+
+    public override int Execute()
+    {
+        if (hand.IndexFingerPoint) // user might change target but not pointing at anything? // TODO:
+        {
+            // return GestureStateMachine.STATE_Buffer;
+        }
+
+        if (!hand.Fist)
+        {
+            // If hand released without throwing, go back to activation state
+            if (hand.ContinousCurveAngle == 0) 
+                return GestureStateMachine.STATE_FinishActivation;
+
+            // TODO: Record throwing curve and sent to actor
+            actor.Interact();
+            return GestureStateMachine.STATE_Idle;
+        }
 
         return -1;
     }
