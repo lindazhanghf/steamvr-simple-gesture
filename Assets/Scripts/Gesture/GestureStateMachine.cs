@@ -178,8 +178,12 @@ class State_FinishActivation : GestureBaseState
     public override void OnEnter(State prevState)
     {
         base.OnEnter(prevState);
-        actor.Activate();
-        lastActivatedAngle = hand.ContinousCurveAngle;
+        
+        if (prevState.ID == GestureStateMachine.STATE_Activation)
+        {
+            actor.Activate();
+            lastActivatedAngle = hand.ContinousCurveAngle;
+        }
     }
 
     public override int Execute()
