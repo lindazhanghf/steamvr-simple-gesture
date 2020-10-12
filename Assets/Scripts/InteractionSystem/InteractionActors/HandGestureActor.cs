@@ -56,6 +56,11 @@ public class HandGestureActor : InteractionActor {
         Invoke_Activation();
     }
 
+    public void Interact()
+    {
+        Invoke_Interaction();
+    }
+
     private Collider FindHitObject()
     {
         RaycastHit raycastHit;

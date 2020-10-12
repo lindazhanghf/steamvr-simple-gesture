@@ -206,7 +206,139 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 182236075}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!43 &343752064
+--- !u!4 &420240899 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4000010109413440, guid: 638779290bce1af49b356f33dcc6fccf,
+    type: 3}
+  m_PrefabInstance: {fileID: 835343159}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &424501078
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 424501079}
+  - component: {fileID: 424501082}
+  - component: {fileID: 424501081}
+  - component: {fileID: 424501080}
+  - component: {fileID: 424501084}
+  - component: {fileID: 424501083}
+  m_Layer: 0
+  m_Name: Cube (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &424501079
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424501078}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.483, y: 0.52, z: 2.869}
+  m_LocalScale: {x: 0.10569379, y: 0.10569379, z: 0.10569379}
+  m_Children: []
+  m_Father: {fileID: 1578114438}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &424501080
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424501078}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &424501081
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424501078}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 0f80e4e2c96ca5a4fb6718eba57ac42f, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &424501082
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424501078}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &424501083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424501078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 179593b987a7d2547befd5f610954555, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactableObject: {fileID: 424501084}
+  enableOutline: 1
+  m_outlineColor: {r: 0, g: 1, b: 0, a: 1}
+  m_enableGlow: 0
+  m_glowColor: {r: 0.4117647, g: 0.54509807, b: 1, a: 1}
+  m_enableOutlineOnChildren: 1
+--- !u!114 &424501084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424501078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ccea0c50c0166e4ca55aed74ec5aa2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsUsable: 1
+--- !u!43 &527249003
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -369,133 +501,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &424501078
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 424501079}
-  - component: {fileID: 424501082}
-  - component: {fileID: 424501081}
-  - component: {fileID: 424501080}
-  - component: {fileID: 424501084}
-  - component: {fileID: 424501083}
-  m_Layer: 0
-  m_Name: Cube (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &424501079
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 424501078}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.483, y: 0.52, z: 2.869}
-  m_LocalScale: {x: 0.10569379, y: 0.10569379, z: 0.10569379}
-  m_Children: []
-  m_Father: {fileID: 1578114438}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &424501080
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 424501078}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &424501081
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 424501078}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 0f80e4e2c96ca5a4fb6718eba57ac42f, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &424501082
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 424501078}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &424501083
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 424501078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 179593b987a7d2547befd5f610954555, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactableObject: {fileID: 424501084}
-  enableOutline: 1
-  m_touchColor: {r: 0, g: 1, b: 0, a: 1}
-  m_enableGlow: 0
-  m_glowColor: {r: 0.4117647, g: 0.54509807, b: 1, a: 1}
-  m_enableOutlineOnChildren: 1
---- !u!114 &424501084
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 424501078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ccea0c50c0166e4ca55aed74ec5aa2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsHovering: 0
-  IsUsable: 1
 --- !u!1 &603011817
 GameObject:
   m_ObjectHideFlags: 0
@@ -605,7 +610,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableObject: {fileID: 603011823}
   enableOutline: 1
-  m_touchColor: {r: 0, g: 1, b: 0, a: 1}
+  m_outlineColor: {r: 0, g: 1, b: 0, a: 1}
   m_enableGlow: 0
   m_glowColor: {r: 0.4117647, g: 0.54509807, b: 1, a: 1}
   m_enableOutlineOnChildren: 1
@@ -621,7 +626,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ccea0c50c0166e4ca55aed74ec5aa2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsHovering: 0
   IsUsable: 1
 --- !u!1 &679373477
 GameObject:
@@ -732,7 +736,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableObject: {fileID: 679373483}
   enableOutline: 1
-  m_touchColor: {r: 0, g: 1, b: 0, a: 1}
+  m_outlineColor: {r: 0, g: 1, b: 0, a: 1}
   m_enableGlow: 0
   m_glowColor: {r: 0.4117647, g: 0.54509807, b: 1, a: 1}
   m_enableOutlineOnChildren: 1
@@ -748,7 +752,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ccea0c50c0166e4ca55aed74ec5aa2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsHovering: 0
   IsUsable: 1
 --- !u!1 &732189517
 GameObject:
@@ -1001,16 +1004,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff27dfe6c3bd2a84eba3baf20d235aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Camera: {fileID: 4000012986126035}
   Hand: 1
   FingerSetting: {fileID: 11400000, guid: 844cfdd811a0d254484e3f912470fa3b, type: 2}
+  Wrist: {fileID: 1078856406}
   PalmOpenThreshold: 1
-  SameSideOfBody: 0
-  OnShoulder: 0
   RadiusThreshold: 0.01
   MaxCircleRadius: 0.25
   MinCircleRadius: 0.1
   NumFramesAllowed: 25
+  CurveDetection: 0
   IndexFingerTip: {fileID: 1058579666}
   CenterSphere: {fileID: 733901067}
   DebugColor: {r: 1, g: 0, b: 0, a: 0}
@@ -1088,7 +1090,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnableDebuging: 0
   TrackingHand: {fileID: 783722862}
-  GestureTransitionBuffer_s: 0.25
+  FullCircleAngle: 360
   finger_index_end: {fileID: 1375564493}
   DebugHit: {fileID: 0}
 --- !u!1 &801545647
@@ -1307,7 +1309,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableObject: {fileID: 855725070}
   enableOutline: 1
-  m_touchColor: {r: 0, g: 1, b: 0, a: 1}
+  m_outlineColor: {r: 0, g: 1, b: 0, a: 1}
   m_enableGlow: 0
   m_glowColor: {r: 0.4117647, g: 0.54509807, b: 1, a: 1}
   m_enableOutlineOnChildren: 1
@@ -1370,7 +1372,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ccea0c50c0166e4ca55aed74ec5aa2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsHovering: 0
   IsUsable: 1
 --- !u!1001 &881601556
 PrefabInstance:
@@ -1483,16 +1484,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff27dfe6c3bd2a84eba3baf20d235aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Camera: {fileID: 4000012986126035}
   Hand: -1
   FingerSetting: {fileID: 11400000, guid: 844cfdd811a0d254484e3f912470fa3b, type: 2}
+  Wrist: {fileID: 420240899}
   PalmOpenThreshold: 1
-  SameSideOfBody: 0
-  OnShoulder: 0
   RadiusThreshold: 0.01
   MaxCircleRadius: 0.25
   MinCircleRadius: 0.1
   NumFramesAllowed: 25
+  CurveDetection: 0
   IndexFingerTip: {fileID: 182236076}
   CenterSphere: {fileID: 2143675101}
   DebugColor: {r: 1, g: 0, b: 0, a: 0}
@@ -1570,7 +1570,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnableDebuging: 0
   TrackingHand: {fileID: 898016753}
-  GestureTransitionBuffer_s: 0.25
+  FullCircleAngle: 360
   finger_index_end: {fileID: 970213331}
   DebugHit: {fileID: 1683681208}
 --- !u!4 &970213331 stripped
@@ -1658,6 +1658,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1058579665}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1078856406 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4000010328025740, guid: 6def53d002137b747aec0b29551e0e25,
+    type: 3}
+  m_PrefabInstance: {fileID: 881601556}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1174285135
 GameObject:
   m_ObjectHideFlags: 0
@@ -1875,7 +1881,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableObject: {fileID: 1216725278}
   enableOutline: 1
-  m_touchColor: {r: 0, g: 1, b: 0, a: 1}
+  m_outlineColor: {r: 0, g: 1, b: 0, a: 1}
   m_enableGlow: 0
   m_glowColor: {r: 0.4117647, g: 0.54509807, b: 1, a: 1}
   m_enableOutlineOnChildren: 1
@@ -1891,7 +1897,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ccea0c50c0166e4ca55aed74ec5aa2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsHovering: 0
   IsUsable: 1
 --- !u!1 &1274871544
 GameObject:
@@ -2034,7 +2039,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableObject: {fileID: 1291620074}
   enableOutline: 1
-  m_touchColor: {r: 0, g: 1, b: 0, a: 1}
+  m_outlineColor: {r: 0, g: 1, b: 0, a: 1}
   m_enableGlow: 0
   m_glowColor: {r: 0.4117647, g: 0.54509807, b: 1, a: 1}
   m_enableOutlineOnChildren: 1
@@ -2050,7 +2055,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ccea0c50c0166e4ca55aed74ec5aa2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsHovering: 0
   IsUsable: 1
 --- !u!4 &1375564493 stripped
 Transform:
@@ -2459,7 +2463,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1474048817}
-  m_Mesh: {fileID: 343752064}
+  m_Mesh: {fileID: 527249003}
 --- !u!23 &1476254103
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2478,7 +2482,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1956840093}
+  - {fileID: 2045930934}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3035,7 +3039,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableObject: {fileID: 1799669785}
   enableOutline: 1
-  m_touchColor: {r: 0, g: 1, b: 0, a: 1}
+  m_outlineColor: {r: 0, g: 1, b: 0, a: 1}
   m_enableGlow: 0
   m_glowColor: {r: 0.4117647, g: 0.54509807, b: 1, a: 1}
   m_enableOutlineOnChildren: 1
@@ -3051,7 +3055,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ccea0c50c0166e4ca55aed74ec5aa2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsHovering: 0
   IsUsable: 1
 --- !u!4 &1810942748 stripped
 Transform:
@@ -3059,7 +3062,7 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 835343159}
   m_PrefabAsset: {fileID: 0}
---- !u!21 &1956840093
+--- !u!21 &2045930934
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
@@ -3202,7 +3205,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableObject: {fileID: 2097081422}
   enableOutline: 1
-  m_touchColor: {r: 0, g: 1, b: 0, a: 1}
+  m_outlineColor: {r: 0, g: 1, b: 0, a: 1}
   m_enableGlow: 0
   m_glowColor: {r: 0.4117647, g: 0.54509807, b: 1, a: 1}
   m_enableOutlineOnChildren: 1
@@ -3218,7 +3221,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ccea0c50c0166e4ca55aed74ec5aa2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsHovering: 0
   IsUsable: 1
 --- !u!1 &2143675100
 GameObject:
