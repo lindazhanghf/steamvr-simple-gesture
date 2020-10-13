@@ -206,6 +206,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 182236075}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &420240899 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4000010109413440, guid: 638779290bce1af49b356f33dcc6fccf,
+    type: 3}
+  m_PrefabInstance: {fileID: 835343159}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &424501078
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,7 +226,6 @@ GameObject:
   - component: {fileID: 424501080}
   - component: {fileID: 424501084}
   - component: {fileID: 424501083}
-  - component: {fileID: 424501085}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -250,7 +255,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 424501078}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -316,9 +321,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableObject: {fileID: 424501084}
   enableOutline: 1
-  m_outlineColor: {r: 1, g: 0.1848956, b: 0, a: 1}
+  m_outlineColor: {r: 0, g: 1, b: 0, a: 1}
   m_enableGlow: 0
-  m_glowColor: {r: 0.41176474, g: 1, b: 0.60534227, a: 1}
+  m_glowColor: {r: 0.4117647, g: 0.54509807, b: 1, a: 1}
   m_enableOutlineOnChildren: 1
 --- !u!114 &424501084
 MonoBehaviour:
@@ -333,22 +338,169 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsUsable: 1
---- !u!54 &424501085
-Rigidbody:
+--- !u!43 &527249003
+Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 424501078}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  m_Name: 
+  serializedVersion: 10
+  m_SubMeshes:
+  - serializedVersion: 2
+    firstByte: 0
+    indexCount: 24
+    topology: 0
+    baseVertex: 0
+    firstVertex: 0
+    vertexCount: 8
+    localAABB:
+      m_Center: {x: 0, y: 0.01, z: 0}
+      m_Extent: {x: 1.65, y: 0, z: 1.275}
+  m_Shapes:
+    vertices: []
+    shapes: []
+    channels: []
+    fullWeights: []
+  m_BindPose: []
+  m_BoneNameHashes: 
+  m_RootBoneNameHash: 0
+  m_BonesAABB: []
+  m_VariableBoneCountWeights:
+    m_Data: 
+  m_MeshCompression: 0
+  m_IsReadable: 1
+  m_KeepVertices: 1
+  m_KeepIndices: 1
+  m_IndexFormat: 0
+  m_IndexBuffer: 000004000100010004000500010005000200020005000600020006000300030006000700030007000000000007000400
+  m_VertexData:
+    serializedVersion: 3
+    m_VertexCount: 8
+    m_Channels:
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 3
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 12
+      format: 0
+      dimension: 4
+    - stream: 0
+      offset: 28
+      format: 0
+      dimension: 2
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    m_DataSize: 288
+    _typelessdata: 0000c03f0ad7233c000090bf000000000000803f0000803f0000803f00000000000000000000c0bf0ad7233c000090bf000000000000803f0000803f0000803f0000803f000000000000c0bf0ad7233c0000903f000000000000803f0000803f0000803f00000000000000000000c03f0ad7233c0000903f000000000000803f0000803f0000803f0000803f000000003333d33f0ad7233c3333a3bf000000000000803f0000803f00000000000000000000803f3333d3bf0ad7233c3333a3bf000000000000803f0000803f000000000000803f0000803f3333d3bf0ad7233c3333a33f000000000000803f0000803f00000000000000000000803f3333d33f0ad7233c3333a33f000000000000803f0000803f000000000000803f0000803f
+  m_CompressedMesh:
+    m_Vertices:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UV:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Normals:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Tangents:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Weights:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_NormalSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_TangentSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_FloatColors:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_BoneIndices:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Triangles:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UVInfo: 0
+  m_LocalAABB:
+    m_Center: {x: 0, y: 0.01, z: 0}
+    m_Extent: {x: 1.65, y: 0, z: 1.275}
+  m_MeshUsageFlags: 0
+  m_BakedConvexCollisionMesh: 
+  m_BakedTriangleCollisionMesh: 
+  m_MeshMetrics[0]: 1
+  m_MeshMetrics[1]: 1
+  m_MeshOptimizationFlags: 1
+  m_StreamData:
+    offset: 0
+    size: 0
+    path: 
 --- !u!1 &603011817
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,7 +515,6 @@ GameObject:
   - component: {fileID: 603011819}
   - component: {fileID: 603011823}
   - component: {fileID: 603011822}
-  - component: {fileID: 603011824}
   m_Layer: 0
   m_Name: Cube (2)
   m_TagString: Untagged
@@ -393,7 +544,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 603011817}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -459,9 +610,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableObject: {fileID: 603011823}
   enableOutline: 1
-  m_outlineColor: {r: 1, g: 0.1848956, b: 0, a: 1}
+  m_outlineColor: {r: 0, g: 1, b: 0, a: 1}
   m_enableGlow: 0
-  m_glowColor: {r: 0.41176474, g: 1, b: 0.60534227, a: 1}
+  m_glowColor: {r: 0.4117647, g: 0.54509807, b: 1, a: 1}
   m_enableOutlineOnChildren: 1
 --- !u!114 &603011823
 MonoBehaviour:
@@ -476,22 +627,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsUsable: 1
---- !u!54 &603011824
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 603011817}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &679373477
 GameObject:
   m_ObjectHideFlags: 0
@@ -506,7 +641,6 @@ GameObject:
   - component: {fileID: 679373479}
   - component: {fileID: 679373483}
   - component: {fileID: 679373482}
-  - component: {fileID: 679373484}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -602,9 +736,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableObject: {fileID: 679373483}
   enableOutline: 1
-  m_outlineColor: {r: 1, g: 0.1848956, b: 0, a: 1}
+  m_outlineColor: {r: 0, g: 1, b: 0, a: 1}
   m_enableGlow: 0
-  m_glowColor: {r: 0.41176474, g: 1, b: 0.60534227, a: 1}
+  m_glowColor: {r: 0.4117647, g: 0.54509807, b: 1, a: 1}
   m_enableOutlineOnChildren: 1
 --- !u!114 &679373483
 MonoBehaviour:
@@ -619,22 +753,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsUsable: 1
---- !u!54 &679373484
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 679373477}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &732189517
 GameObject:
   m_ObjectHideFlags: 0
@@ -886,16 +1004,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff27dfe6c3bd2a84eba3baf20d235aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Camera: {fileID: 4000012986126035}
   Hand: 1
   FingerSetting: {fileID: 11400000, guid: 844cfdd811a0d254484e3f912470fa3b, type: 2}
+  Wrist: {fileID: 1078856406}
   PalmOpenThreshold: 1
-  SameSideOfBody: 0
-  OnShoulder: 0
-  RadiusThreshold: 0.03
+  RadiusThreshold: 0.01
   MaxCircleRadius: 0.25
   MinCircleRadius: 0.1
   NumFramesAllowed: 25
+  CurveDetection: 0
   IndexFingerTip: {fileID: 1058579666}
   CenterSphere: {fileID: 733901067}
   DebugColor: {r: 1, g: 0, b: 0, a: 0}
@@ -971,11 +1088,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 048f52298205eec41800654b592a7dc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnableDebuging: 1
+  EnableDebuging: 0
   TrackingHand: {fileID: 783722862}
   FullCircleAngle: 360
-  ThrowCurveAngle: 60
-  GestureTransitionBuffer_s: 0.25
   finger_index_end: {fileID: 1375564493}
   DebugHit: {fileID: 0}
 --- !u!1 &801545647
@@ -1146,7 +1261,6 @@ GameObject:
   - component: {fileID: 855725066}
   - component: {fileID: 855725070}
   - component: {fileID: 855725067}
-  - component: {fileID: 855725071}
   m_Layer: 0
   m_Name: Sphere (3)
   m_TagString: Untagged
@@ -1176,7 +1290,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 855725064}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -1195,9 +1309,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableObject: {fileID: 855725070}
   enableOutline: 1
-  m_outlineColor: {r: 1, g: 0.1848956, b: 0, a: 1}
+  m_outlineColor: {r: 0, g: 1, b: 0, a: 1}
   m_enableGlow: 0
-  m_glowColor: {r: 0.41176474, g: 1, b: 0.60534227, a: 1}
+  m_glowColor: {r: 0.4117647, g: 0.54509807, b: 1, a: 1}
   m_enableOutlineOnChildren: 1
 --- !u!23 &855725068
 MeshRenderer:
@@ -1259,22 +1373,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsUsable: 1
---- !u!54 &855725071
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 855725064}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1001 &881601556
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1386,16 +1484,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff27dfe6c3bd2a84eba3baf20d235aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Camera: {fileID: 4000012986126035}
   Hand: -1
   FingerSetting: {fileID: 11400000, guid: 844cfdd811a0d254484e3f912470fa3b, type: 2}
+  Wrist: {fileID: 420240899}
   PalmOpenThreshold: 1
-  SameSideOfBody: 0
-  OnShoulder: 0
-  RadiusThreshold: 0.03
+  RadiusThreshold: 0.01
   MaxCircleRadius: 0.25
   MinCircleRadius: 0.1
   NumFramesAllowed: 25
+  CurveDetection: 0
   IndexFingerTip: {fileID: 182236076}
   CenterSphere: {fileID: 2143675101}
   DebugColor: {r: 1, g: 0, b: 0, a: 0}
@@ -1471,11 +1568,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 048f52298205eec41800654b592a7dc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnableDebuging: 1
+  EnableDebuging: 0
   TrackingHand: {fileID: 898016753}
   FullCircleAngle: 360
-  ThrowCurveAngle: 90
-  GestureTransitionBuffer_s: 0.25
   finger_index_end: {fileID: 970213331}
   DebugHit: {fileID: 1683681208}
 --- !u!4 &970213331 stripped
@@ -1484,40 +1579,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 835343159}
   m_PrefabAsset: {fileID: 0}
---- !u!21 &1005141649
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Sprites/Default
-  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _AlphaTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - PixelSnap: 0
-    - _EnableExternalAlpha: 0
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1058579665
 GameObject:
   m_ObjectHideFlags: 0
@@ -1597,6 +1658,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1058579665}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1078856406 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4000010328025740, guid: 6def53d002137b747aec0b29551e0e25,
+    type: 3}
+  m_PrefabInstance: {fileID: 881601556}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1174285135
 GameObject:
   m_ObjectHideFlags: 0
@@ -1719,7 +1786,6 @@ GameObject:
   - component: {fileID: 1216725274}
   - component: {fileID: 1216725278}
   - component: {fileID: 1216725277}
-  - component: {fileID: 1216725279}
   m_Layer: 0
   m_Name: Cube (3)
   m_TagString: Untagged
@@ -1749,7 +1815,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1216725272}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -1815,9 +1881,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableObject: {fileID: 1216725278}
   enableOutline: 1
-  m_outlineColor: {r: 1, g: 0.1848956, b: 0, a: 1}
+  m_outlineColor: {r: 0, g: 1, b: 0, a: 1}
   m_enableGlow: 0
-  m_glowColor: {r: 0.41176474, g: 1, b: 0.60534227, a: 1}
+  m_glowColor: {r: 0.4117647, g: 0.54509807, b: 1, a: 1}
   m_enableOutlineOnChildren: 1
 --- !u!114 &1216725278
 MonoBehaviour:
@@ -1832,22 +1898,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsUsable: 1
---- !u!54 &1216725279
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1216725272}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &1274871544
 GameObject:
   m_ObjectHideFlags: 0
@@ -1894,7 +1944,6 @@ GameObject:
   - component: {fileID: 1291620070}
   - component: {fileID: 1291620074}
   - component: {fileID: 1291620073}
-  - component: {fileID: 1291620075}
   m_Layer: 0
   m_Name: Sphere (1)
   m_TagString: Untagged
@@ -1924,7 +1973,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1291620068}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -1990,9 +2039,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableObject: {fileID: 1291620074}
   enableOutline: 1
-  m_outlineColor: {r: 1, g: 0.1848956, b: 0, a: 1}
+  m_outlineColor: {r: 0, g: 1, b: 0, a: 1}
   m_enableGlow: 0
-  m_glowColor: {r: 0.41176474, g: 1, b: 0.60534227, a: 1}
+  m_glowColor: {r: 0.4117647, g: 0.54509807, b: 1, a: 1}
   m_enableOutlineOnChildren: 1
 --- !u!114 &1291620074
 MonoBehaviour:
@@ -2007,22 +2056,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsUsable: 1
---- !u!54 &1291620075
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1291620068}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!4 &1375564493 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4000011633937216, guid: 6def53d002137b747aec0b29551e0e25,
@@ -2430,7 +2463,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1474048817}
-  m_Mesh: {fileID: 1865145302}
+  m_Mesh: {fileID: 527249003}
 --- !u!23 &1476254103
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2449,7 +2482,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1005141649}
+  - {fileID: 2045930934}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2911,7 +2944,6 @@ GameObject:
   - component: {fileID: 1799669781}
   - component: {fileID: 1799669785}
   - component: {fileID: 1799669784}
-  - component: {fileID: 1799669786}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -2941,7 +2973,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1799669779}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -3007,9 +3039,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableObject: {fileID: 1799669785}
   enableOutline: 1
-  m_outlineColor: {r: 1, g: 0.1848956, b: 0, a: 1}
+  m_outlineColor: {r: 0, g: 1, b: 0, a: 1}
   m_enableGlow: 0
-  m_glowColor: {r: 0.41176474, g: 1, b: 0.60534227, a: 1}
+  m_glowColor: {r: 0.4117647, g: 0.54509807, b: 1, a: 1}
   m_enableOutlineOnChildren: 1
 --- !u!114 &1799669785
 MonoBehaviour:
@@ -3024,191 +3056,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsUsable: 1
---- !u!54 &1799669786
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1799669779}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!4 &1810942748 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4000013303659494, guid: 638779290bce1af49b356f33dcc6fccf,
     type: 3}
   m_PrefabInstance: {fileID: 835343159}
   m_PrefabAsset: {fileID: 0}
---- !u!43 &1865145302
-Mesh:
+--- !u!21 &2045930934
+Material:
+  serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  serializedVersion: 10
-  m_SubMeshes:
-  - serializedVersion: 2
-    firstByte: 0
-    indexCount: 24
-    topology: 0
-    baseVertex: 0
-    firstVertex: 0
-    vertexCount: 8
-    localAABB:
-      m_Center: {x: 0, y: 0.01, z: 0}
-      m_Extent: {x: 1.65, y: 0, z: 1.275}
-  m_Shapes:
-    vertices: []
-    shapes: []
-    channels: []
-    fullWeights: []
-  m_BindPose: []
-  m_BoneNameHashes: 
-  m_RootBoneNameHash: 0
-  m_BonesAABB: []
-  m_VariableBoneCountWeights:
-    m_Data: 
-  m_MeshCompression: 0
-  m_IsReadable: 1
-  m_KeepVertices: 1
-  m_KeepIndices: 1
-  m_IndexFormat: 0
-  m_IndexBuffer: 000004000100010004000500010005000200020005000600020006000300030006000700030007000000000007000400
-  m_VertexData:
+  m_Name: Sprites/Default
+  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
     serializedVersion: 3
-    m_VertexCount: 8
-    m_Channels:
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 3
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 12
-      format: 0
-      dimension: 4
-    - stream: 0
-      offset: 28
-      format: 0
-      dimension: 2
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    m_DataSize: 288
-    _typelessdata: 0000c03f0ad7233c000090bf000000000000803f0000803f0000803f00000000000000000000c0bf0ad7233c000090bf000000000000803f0000803f0000803f0000803f000000000000c0bf0ad7233c0000903f000000000000803f0000803f0000803f00000000000000000000c03f0ad7233c0000903f000000000000803f0000803f0000803f0000803f000000003333d33f0ad7233c3333a3bf000000000000803f0000803f00000000000000000000803f3333d3bf0ad7233c3333a3bf000000000000803f0000803f000000000000803f0000803f3333d3bf0ad7233c3333a33f000000000000803f0000803f00000000000000000000803f3333d33f0ad7233c3333a33f000000000000803f0000803f000000000000803f0000803f
-  m_CompressedMesh:
-    m_Vertices:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UV:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Normals:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Tangents:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Weights:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_NormalSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_TangentSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_FloatColors:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_BoneIndices:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Triangles:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UVInfo: 0
-  m_LocalAABB:
-    m_Center: {x: 0, y: 0.01, z: 0}
-    m_Extent: {x: 1.65, y: 0, z: 1.275}
-  m_MeshUsageFlags: 0
-  m_BakedConvexCollisionMesh: 
-  m_BakedTriangleCollisionMesh: 
-  m_MeshMetrics[0]: 1
-  m_MeshMetrics[1]: 1
-  m_MeshOptimizationFlags: 1
-  m_StreamData:
-    offset: 0
-    size: 0
-    path: 
+    m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - PixelSnap: 0
+    - _EnableExternalAlpha: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &2097081416
 GameObject:
   m_ObjectHideFlags: 0
@@ -3223,7 +3110,6 @@ GameObject:
   - component: {fileID: 2097081418}
   - component: {fileID: 2097081422}
   - component: {fileID: 2097081421}
-  - component: {fileID: 2097081423}
   m_Layer: 0
   m_Name: Sphere (2)
   m_TagString: Untagged
@@ -3253,7 +3139,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2097081416}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -3319,9 +3205,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableObject: {fileID: 2097081422}
   enableOutline: 1
-  m_outlineColor: {r: 1, g: 0.1848956, b: 0, a: 1}
+  m_outlineColor: {r: 0, g: 1, b: 0, a: 1}
   m_enableGlow: 0
-  m_glowColor: {r: 0.41176474, g: 1, b: 0.60534227, a: 1}
+  m_glowColor: {r: 0.4117647, g: 0.54509807, b: 1, a: 1}
   m_enableOutlineOnChildren: 1
 --- !u!114 &2097081422
 MonoBehaviour:
@@ -3336,22 +3222,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsUsable: 1
---- !u!54 &2097081423
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2097081416}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &2143675100
 GameObject:
   m_ObjectHideFlags: 0

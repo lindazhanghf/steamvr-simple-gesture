@@ -6,6 +6,8 @@ using Valve.VR;
 
 public class HandTracker : MonoBehaviour
 {
+    public static HandTracker LeftHand { get; private set; }
+    public static HandTracker RightHand { get; private set; }
     public enum HandType : int
     {
         Left = -1,
@@ -16,19 +18,20 @@ public class HandTracker : MonoBehaviour
     public bool IsTracking { get; private set; }
 
     [Header("SteamVR References")]
-    public Transform Camera;
     public HandType Hand;
     private SteamVR_Action_Skeleton m_skeletonAction;
 
 
-    [Header("Hand Tracking")]
+    [Header("Hand Gesture")]
     public FingerGestureSetting FingerSetting;
-    [Range(0f, 0.5f)]
+    public Transform Wrist;
+    [Range(0f, 5f)]
     public float PalmOpenThreshold = 1f; // sum of 5 fingers curl value
     public bool PalmOpen
     {
         get { return SumFingerCurls() < PalmOpenThreshold; }
     }
+    public bool PalmForward => Wrist.eulerAngles.x > 275f && Wrist.eulerAngles.x < 295f; // TODO: use head direction
     public bool IndexFingerPoint
     {
         get 
@@ -54,16 +57,11 @@ public class HandTracker : MonoBehaviour
     private float m_sumFingerCurls;
 
 
-    [Header("Body Tracking")]
-    public bool SameSideOfBody;
-    public bool OnShoulder;
-    public bool AboveHead
-    {
-        get { return transform.position.y > Camera.position.y; }
-    }
-
-
     [Header("Trace Match")]
+    public float RadiusThreshold = 0.01f;
+    public float MaxCircleRadius = 0.25f;
+    public float MinCircleRadius = 0.05f;
+    public int NumFramesAllowed = 25;
     private bool m_enableTraceMatch;
     public bool EnableTraceMatch
     {
@@ -73,11 +71,6 @@ public class HandTracker : MonoBehaviour
             if (!value) ResetDebug();
         }
     }
-    public float RadiusThreshold = 0.01f;
-    public float MaxCircleRadius = 0.25f;
-    public float MinCircleRadius = 0.05f;
-    public int NumFramesAllowed = 25;
-    public float AngleContinousCurve { get; private set; }
 
     private Coroutine m_TraceMatchCoroutine;
     private Vector3[] m_frames = new Vector3[30];
@@ -91,14 +84,21 @@ public class HandTracker : MonoBehaviour
     {
         get { return m_circleRadius - RadiusThreshold; }
     }
-    // Continous Curve
+
+
+    [Header("Trace Match - Curve")]
+    public CurveType CurveDetection;
+    public enum CurveType
+    {
+        Circle, NonCircle
+    }
     public float ContinousCurveAngle { get; private set; }
     private Vector3 m_curveLastFrame = Vector3.zero;
     private Vector3 m_curveStartCenter = Vector3.zero;
     private int m_curveStartFrameIndex;
 
 
-    [Header("Trace Match - Debug")]
+    [Header("Trace Match - Debug ")]
     public Transform IndexFingerTip;
     public Transform CenterSphere;
     public Color DebugColor = Color.red;
@@ -109,6 +109,9 @@ public class HandTracker : MonoBehaviour
 
     void Awake()
     {
+        if (Hand == HandType.Left) LeftHand = this;
+        else if (Hand == HandType.Right) RightHand = this;
+
         m_debugMaterial = GetComponent<MeshRenderer>().material;
 
         // TODO: get using SteamVR_Input_Sources
@@ -123,6 +126,13 @@ public class HandTracker : MonoBehaviour
     void OnDisable()
     {
         if (m_TraceMatchCoroutine != null) StopCoroutine(m_TraceMatchCoroutine);
+    }
+
+    public static HandTracker GetHandByType(HandType type)
+    {
+        if (type == HandType.Left) return LeftHand;
+        if (type == HandType.Right) return RightHand;
+        return null;
     }
 
     private IEnumerator InitializeHandDataCollection()
@@ -194,7 +204,6 @@ public class HandTracker : MonoBehaviour
             else
             {
                 Debug.Log(Hand.ToString() + " < 25");
-                ResetContinousCurve();
                 ResetDebug();
             }
         }
@@ -287,6 +296,7 @@ public class HandTracker : MonoBehaviour
         }
 
         m_debugReset = true;
+        ResetContinousCurve();
     }
 
     /// Helper Functions ///

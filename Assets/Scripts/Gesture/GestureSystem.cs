@@ -61,21 +61,17 @@ public class GestureSystem : MonoBehaviour
             bool match = true;
             int frameIndex = Gestures[i]._keyFrameIndex;
 
-            // bool flip = false;
-            // if (Gestures[i].Setting == HandSetting.Opposite) flip = true;
             foreach (HandTracker hand in GetHandTrackersToCheck(Gestures[i].Setting))
             {
-                if (hand.SameSideOfBody == Gestures[i].KeyFrames[frameIndex].SameSideOfBody &&
-                    hand.OnShoulder == Gestures[i].KeyFrames[frameIndex].OnShoulder &&
-                    hand.AboveHead == Gestures[i].KeyFrames[frameIndex].AboveHead)
-                { }
-                else
-                {
-                    match = false;
-                    break;
-                }
-
-                // if (flip) flip = false; // Only check the first one flipped
+                // if (hand.SameSideOfBody == Gestures[i].KeyFrames[frameIndex].SameSideOfBody &&
+                //     hand.OnShoulder == Gestures[i].KeyFrames[frameIndex].OnShoulder &&
+                //     hand.AboveHead == Gestures[i].KeyFrames[frameIndex].AboveHead)
+                // { }
+                // else
+                // {
+                //     match = false;
+                //     break;
+                // }
             }
 
             if (match)
