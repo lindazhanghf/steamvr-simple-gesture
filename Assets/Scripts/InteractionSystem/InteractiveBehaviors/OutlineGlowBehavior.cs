@@ -20,8 +20,8 @@ public class OutlineGlowBehavior : InteractableBehavior
     [SerializeField] private bool m_enableOutlineOnChildren = true;
 
     private Material m_outlineMat;
-    private List<MeshRenderer> m_singleMaterialMesh;
-    private List<MeshRenderer> m_multiMaterialMesh;
+    private List<Renderer> m_singleMaterialMesh;
+    private List<Renderer> m_multiMaterialMesh;
     private Color m_color;
     private float m_currOutlineThickness;
 
@@ -36,15 +36,15 @@ public class OutlineGlowBehavior : InteractableBehavior
     {
         base.Start();
 
-        m_singleMaterialMesh = new List<MeshRenderer>();
-        m_multiMaterialMesh = new List<MeshRenderer>();
+        m_singleMaterialMesh = new List<Renderer>();
+        m_multiMaterialMesh = new List<Renderer>();
 
-        List<MeshRenderer> allMeshes = new List<MeshRenderer>();
+        List<Renderer> allMeshes = new List<Renderer>();
         // allMeshes.AddRange(_additionalMeshes);
         if (m_enableOutlineOnChildren)
-            allMeshes.AddRange(GetComponentsInChildren<MeshRenderer>());
+            allMeshes.AddRange(GetComponentsInChildren<Renderer>());
 
-        foreach (MeshRenderer renderer in allMeshes)
+        foreach (Renderer renderer in allMeshes)
         {
             if (renderer == null) continue;
 
@@ -79,7 +79,7 @@ public class OutlineGlowBehavior : InteractableBehavior
         base.OnStartHovering();
         if (!enableOutline) return;
 
-        // Debug.Log("OnStartHovering" + gameObject.name);
+        // Debug.Log("OnStartHovering " + gameObject.name);
 
         // SetOutlineColor(m_outlineColor, 0.0025f);
         ChangeOutlineCoroutine(0.5f, m_glowColor, 0.0025f, s_DefaultColor);
@@ -89,19 +89,19 @@ public class OutlineGlowBehavior : InteractableBehavior
     {
         base.OnStopHovering();
 
-        // Debug.Log("OnStopHovering" + gameObject.name);
+        // Debug.Log("OnStopHovering " + gameObject.name);
         // DisableOutline();
         ChangeOutlineCoroutine(0.5f, m_glowColor, 0f, s_DefaultColor);
     }
 
     private void EnableOutline()
     {
-        foreach (MeshRenderer m in m_singleMaterialMesh)
+        foreach (Renderer m in m_singleMaterialMesh)
         {
              m.materials = new Material[] { m.materials[0], m_outlineMat };
         }
 
-        foreach (MeshRenderer m in m_multiMaterialMesh)
+        foreach (Renderer m in m_multiMaterialMesh)
         {
             m.gameObject.SetActive(true);
         }
@@ -109,12 +109,12 @@ public class OutlineGlowBehavior : InteractableBehavior
 
     private void DisableOutline()
     {
-        foreach (MeshRenderer m in m_singleMaterialMesh)
+        foreach (Renderer m in m_singleMaterialMesh)
         {
             m.materials = new Material[] { m.materials[0] };
         }
 
-        foreach (MeshRenderer m in m_multiMaterialMesh)
+        foreach (Renderer m in m_multiMaterialMesh)
         {
             m.gameObject.SetActive(false);
         }
@@ -124,13 +124,13 @@ public class OutlineGlowBehavior : InteractableBehavior
     {
         m_color = color;
 
-        foreach (MeshRenderer m in m_singleMaterialMesh)
+        foreach (Renderer m in m_singleMaterialMesh)
         {
             m.materials[1].SetColor("g_vOutlineColor", color);
             m.materials[1].SetFloat("g_flOutlineWidth", thickness);
         }
 
-        foreach (MeshRenderer m in m_multiMaterialMesh)
+        foreach (Renderer m in m_multiMaterialMesh)
         {
             foreach (Material mat in m.materials)
             {
@@ -144,12 +144,12 @@ public class OutlineGlowBehavior : InteractableBehavior
     {
         m_currOutlineThickness = thickness;
 
-        foreach (MeshRenderer m in m_singleMaterialMesh)
+        foreach (Renderer m in m_singleMaterialMesh)
         {
             m.materials[1].SetFloat("g_flOutlineWidth", thickness);
         }
 
-        foreach (MeshRenderer m in m_multiMaterialMesh)
+        foreach (Renderer m in m_multiMaterialMesh)
         {
             foreach (Material mat in m.materials)
             {
@@ -208,15 +208,15 @@ public class OutlineGlowBehavior : InteractableBehavior
         // Debug.Log(m_currOutlineThickness);
     }
 
-    private MeshRenderer CreateOutlineObject(GameObject obj)
+    private Renderer CreateOutlineObject(GameObject obj)
     {
-        GameObject outlineObj = new GameObject(obj.name + " (Outline)", new System.Type[] { typeof(MeshFilter), typeof(MeshRenderer) });
+        GameObject outlineObj = new GameObject(obj.name + " (Outline)", new System.Type[] { typeof(MeshFilter), typeof(Renderer) });
         outlineObj.transform.SetParent(obj.transform, false);
 
         outlineObj.GetComponent<MeshFilter>().mesh = obj.GetComponent<MeshFilter>().mesh;
 
-        MeshRenderer rend = outlineObj.GetComponent<MeshRenderer>();
-        Material[] outlines = new Material[obj.GetComponent<MeshRenderer>().materials.Length];
+        Renderer rend = outlineObj.GetComponent<Renderer>();
+        Material[] outlines = new Material[obj.GetComponent<Renderer>().materials.Length];
         for (int i = 0; i < outlines.Length; i++)
         {
             outlines[i] = m_outlineMat;
