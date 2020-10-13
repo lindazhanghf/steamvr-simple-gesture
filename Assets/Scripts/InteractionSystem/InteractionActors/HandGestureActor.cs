@@ -67,9 +67,10 @@ public class HandGestureActor : InteractionActor {
         Invoke_Activation();
     }
 
-    public void Interact()
+    public void ThrowAction(Vector3 throwDirection)
     {
         Invoke_Interaction();
+        Invoke_StopHovering(m_currentObject);
     }
 
     private Collider FindHitObject()
