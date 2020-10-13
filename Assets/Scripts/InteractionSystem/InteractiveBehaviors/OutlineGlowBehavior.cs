@@ -42,7 +42,7 @@ public class OutlineGlowBehavior : InteractableBehavior
         List<Renderer> allMeshes = new List<Renderer>();
         // allMeshes.AddRange(_additionalMeshes);
         if (m_enableOutlineOnChildren)
-            allMeshes.AddRange(GetComponentsInChildren<Renderer>());
+            allMeshes.AddRange(GetComponentsInChildren<Renderer>(true));
 
         foreach (Renderer renderer in allMeshes)
         {
@@ -82,7 +82,7 @@ public class OutlineGlowBehavior : InteractableBehavior
         // Debug.Log("OnStartHovering " + gameObject.name);
 
         // SetOutlineColor(m_outlineColor, 0.0025f);
-        ChangeOutlineCoroutine(0.5f, m_glowColor, 0.0025f, s_DefaultColor);
+        ChangeOutlineCoroutine(0.5f, m_glowColor, 0.005f, s_DefaultColor);
     }
 
     protected override void OnStopHovering()

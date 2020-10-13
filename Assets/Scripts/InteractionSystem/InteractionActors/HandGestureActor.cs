@@ -70,7 +70,46 @@ public class HandGestureActor : InteractionActor {
     public void ThrowAction(Vector3 throwDirection)
     {
         Invoke_Interaction();
-        Invoke_StopHovering(m_currentObject);
+
+        if (m_currentObject as Bird)
+        {
+            var targets = GameObject.FindObjectsOfType<Target>();
+            Target closestTarget = null;
+            float closestAngle = float.MaxValue;
+            foreach (Target t in targets)
+            {
+                if (closestTarget == null)
+                {
+                    closestTarget = t;
+                    continue;
+                }
+                var normalized_throwDirection = throwDirection;
+                normalized_throwDirection.y = 0;
+            
+                var target_direction = transform.position - closestTarget.transform.position;
+                target_direction.y = 0;
+
+                var angle = Vector3.Angle(normalized_throwDirection, target_direction);
+                if (angle < closestAngle)
+                {
+                    closestAngle = angle;
+                    closestTarget = t;
+                }
+            }
+            Debug.Log(closestTarget);
+            m_currentObject.transform.LookAt(closestTarget.transform);
+
+            var rb = m_currentObject.GetComponent<Rigidbody>();
+            if (rb)
+            {
+                rb.isKinematic = false;
+                rb.AddForce(Vector3.Normalize(closestTarget.transform.position - m_currentObject.transform.position) * 3, ForceMode.VelocityChange);
+            }
+            Debug.Log(closestTarget.transform.position - m_currentObject.transform.position);
+        }
+
+        if (m_currentObject)
+            Invoke_StopHovering(m_currentObject);
     }
 
     private Collider FindHitObject()
