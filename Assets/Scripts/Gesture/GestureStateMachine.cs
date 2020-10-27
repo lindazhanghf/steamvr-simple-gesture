@@ -194,6 +194,11 @@ class State_FinishActivation : GestureBaseState
 
     public override int Execute()
     {
+        if (hand.BothPalmForward)
+        {
+            return GestureStateMachine.STATE_Buffer;
+        }
+
         if (hand.ContinousCurveAngle > lastActivatedAngle + FullCircleAngle)
         {
             Debug.LogWarning("State_Activation :: activated AGAIN, ContinousCurveAngle = " + hand.ContinousCurveAngle);
@@ -247,7 +252,14 @@ class State_ThrowingAction : GestureBaseState
             //     return GestureStateMachine.STATE_FinishActivation;
 
             Vector3 throwDirection = hand.transform.position - m_throwingStartPos;
-            actor.ThrowAction(throwDirection);
+            try
+            {
+                actor.ThrowAction(throwDirection);
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError(actor.gameObject.name + " Actor-ThrowAction :: " + e);
+            }
             return GestureStateMachine.STATE_Idle;
         }
 
@@ -268,6 +280,7 @@ class State_Buffer : GestureBaseState
         Debug.Log("State_Buffer :: Buffer ended, gesture canceled");
         m_canceled = true;
 
+        actor.EndInteraction();
         actor.StopHovering();
         hand.EnableTraceMatch = false;
     }
@@ -276,6 +289,12 @@ class State_Buffer : GestureBaseState
     {
         base.OnEnter(prevState);
         PreviousState = prevState;
+
+        if (prevState is State_FinishActivation)
+        {
+            CancelGesture();
+            return;
+        }
 
         m_canceled = false;
         Debug.Log("State_Buffer :: Start GestureTransitionBuffer coroutine");
@@ -293,10 +312,8 @@ class State_Buffer : GestureBaseState
         switch (PreviousState.ID)
         {
             case GestureStateMachine.STATE_Point:
-                if (hand.PalmOpen) return GestureStateMachine.STATE_Activation;
-                break;
-            case GestureStateMachine.STATE_Activation:
-                if (hand.PalmOpen) return GestureStateMachine.STATE_Activation;
+                if (hand.PalmOpen && actor.CurrentInteractableObject != null)
+                    return GestureStateMachine.STATE_Activation;
                 break;
             default:
                 break;

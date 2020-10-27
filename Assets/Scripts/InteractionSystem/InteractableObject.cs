@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEditor;
  #endif
 
-[RequireComponent(typeof(Collider))]
+// [RequireComponent(typeof(Collider))]
 public class InteractableObject : MonoBehaviour {
     public bool IsUsable = true;
     // Public getter variables
@@ -75,7 +75,10 @@ public class InteractableObject : MonoBehaviour {
                 {
                     interactableEvent();
                 }
-                finally { }
+                catch (System.Exception e)
+                {
+                    Debug.LogError("[" + gameObject.name + "] InteractableEvent-error: " + e);
+                }
             }
         }
     }

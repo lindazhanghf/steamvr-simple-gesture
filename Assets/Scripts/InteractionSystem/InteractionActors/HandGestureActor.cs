@@ -8,6 +8,7 @@ public class HandGestureActor : InteractionActor {
     public HandTracker TrackingHand;
     public int FullCircleAngle = 360; // in degree
     public Transform finger_index_end;
+    public InteractableObject CurrentInteractableObject => m_currentObject;
 
     [Header("Debug")]
     public GameObject DebugHit;
@@ -65,6 +66,11 @@ public class HandGestureActor : InteractionActor {
     public void Activate()
     {
         Invoke_Activation();
+    }
+
+    public void EndInteraction()
+    {
+        Invoke_EndInteraction();
     }
 
     public void ThrowAction(Vector3 throwDirection)
