@@ -196,15 +196,15 @@ public class HandTracker : MonoBehaviour
 
             if (numFramesWithinThreshold > NumFramesAllowed)
             {
-                if (numFramesWithinThreshold == 30) Debug.Log(m_circleRadius);
-                else Debug.Log(Hand.ToString() + " within = " + numFramesWithinThreshold);
+                // if (numFramesWithinThreshold == 30) Debug.Log(m_circleRadius);
+                // else Debug.Log(Hand.ToString() + " within = " + numFramesWithinThreshold);
                 m_debugMaterial.color = DebugColor;
 
                 CalculateContinousCurve(center, v_currFrame_center);
             }
             else
             {
-                Debug.Log(Hand.ToString() + " < 25");
+                // Debug.Log(Hand.ToString() + " < 25");
                 ResetDebug();
             }
         }
@@ -247,7 +247,11 @@ public class HandTracker : MonoBehaviour
 
         // result circle
         Vector3 circCenter = p1 + (u*tt*(uv) - t*uu*(tv)) * iwsl2;
-        if (CenterSphere) CenterSphere.position = circCenter;
+        if (CenterSphere)
+        {
+            CenterSphere.position = circCenter;
+            CenterSphere.gameObject.SetActive(true);
+        }
         m_debugReset = false;
         return circCenter;
     }
@@ -293,6 +297,7 @@ public class HandTracker : MonoBehaviour
         m_debugMaterial.color = Color.white;
         if (CenterSphere)
         {
+            CenterSphere.gameObject.SetActive(false);
             CenterSphere.localPosition = Vector3.zero;
         }
 

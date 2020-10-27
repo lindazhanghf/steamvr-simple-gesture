@@ -77,7 +77,7 @@ public class HandGestureActor : InteractionActor {
     {
         Invoke_Interaction();
 
-        if (m_currentObject as Bird)
+        if (m_currentObject && m_currentObject.IsActivated)
         {
             var targets = GameObject.FindObjectsOfType<Target>();
             Target closestTarget = null;
